@@ -46,9 +46,9 @@ class SupplierController extends Controller
         $result = $supplier->save();
 
         if($result){
-            sweetalert()->success('Supplier Added Successfully!');
+            sweetalert()->timer(800)->success('Supplier Added Successfully!');
         }else{
-            sweetalert()->error('Supplier not added!');
+            sweetalert()->timer(800)->error('Supplier not added!');
         }
 
         return redirect()->route('supplier.all');
@@ -93,9 +93,9 @@ class SupplierController extends Controller
 
 
         if($result){
-            sweetalert()->success('Supplier Updated Successfully!');
+            sweetalert()->timer(800)->success('Supplier Updated Successfully!');
         }else{
-            sweetalert()->error('Supplier not Updated!');
+            sweetalert()->timer(800)->error('Supplier not Updated!');
         }
 
         return redirect()->route('supplier.all');
@@ -109,9 +109,7 @@ class SupplierController extends Controller
         $result = Supplier::findOrFail($id)->delete();
 
         if($result){
-            sweetalert()->success('Supplier Deleted Successfully!');
-        }else{
-            sweetalert()->error('Supplier not Deleted!');
+            notyf()->position('y', 'top')->duration(1000)->success('Supplier Deleted Successfully!');
         }
 
         return redirect()->back();

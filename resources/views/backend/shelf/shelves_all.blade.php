@@ -55,8 +55,11 @@
                                      @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('shelves.edit', $shelf->id) }}" class="btn btn-sm btn-dark"><i class="lni lni-pencil"></i>Details</a>
-                                    <a href="{{ route('shelves.delete', $shelf->id) }}" class="btn btn-sm btn-danger"><i class="lni lni-trash"></i>Trash</a>
+                                    <a href="{{ route('shelves.edit', $shelf->id) }}" class="btn btn-sm btn-dark"><i class="lni lni-pencil"></i>Edit</a>
+                                    <!-- <a href="{{ route('shelves.delete', $shelf->id) }}" class="btn btn-sm btn-danger"><i class="lni lni-trash"></i>Trash</a> -->
+                                    <button class="btn btn-sm btn-danger deleteShelf" data-url="{{ route('shelves.delete', $shelf->id) }}">
+                                        <i class="lni lni-trash"></i>Trash
+                                    </button>
                                 </td>
                             </tr>
 
@@ -79,6 +82,31 @@
     </div>
 </div>
 
+<script>
+    document.querySelectorAll('.deleteShelf').forEach(function(deleteButton){
+        
+        deleteButton.addEventListener('click', function(e){
+            e.preventDefault();
+            
+            const deleteUrl = this.getAttribute('data-url');
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You want to delete the Shelf!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: 'No, cancel!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms, redirect to the delete URL
+                    window.location.href = deleteUrl;
+                }
+            });
+        });
+    });
+</script>
 @endsection
 
 

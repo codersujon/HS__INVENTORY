@@ -72,10 +72,10 @@ class ProductController extends Controller
         ]);
 
 
-        if($result){
-            notyf()->position('x', 'right')->position('y', 'top')->success('Product Added Successfully!');
+        if($result){ 
+            notyf()->position('x', 'right')->position('y', 'top')->duration(1000)->success('Product Added Successfully!');
         }else{
-            notyf()->position('x', 'right')->position('y', 'top')->error('Product not added!');
+            notyf()->position('x', 'right')->position('y', 'top')->duration(1000)->error('Product not added!');
         }
 
         return redirect()->route('product.all');
@@ -136,9 +136,9 @@ class ProductController extends Controller
         ]);
 
         if($result){
-            sweetalert()->position('x', 'right')->position('y', 'top')->success('Product Updated Successfully!');
+            sweetalert()->position('x', 'right')->position('y', 'top')->timer(800)->success('Product Updated Successfully!');
         }else{
-            sweetalert()->position('x', 'right')->position('y', 'top')->error('Product not Updated!');
+            sweetalert()->position('x', 'right')->position('y', 'top')->timer(800)->error('Product not Updated!');
         }
 
         return redirect()->route('product.all');
@@ -155,11 +155,9 @@ class ProductController extends Controller
         $result = Product::findOrFail($id)->delete();
 
         if($result){
-            notyf()->position('x', 'right')->position('y', 'top')->duration(2000)->success('Product Deleted Successfully!');
-        }else{
-            sweetalert()->position('x', 'right')->position('y', 'top')->error('Product not Deleted!');
+            notyf()->position('x', 'right')->position('y', 'top')->duration(1000)->success('Product Deleted Successfully!');
         }
 
-        return redirect()->route('product.all');
+        return redirect()->back();
     }
 }

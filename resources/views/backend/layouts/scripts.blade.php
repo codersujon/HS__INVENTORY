@@ -105,6 +105,7 @@
 <script src="{{ asset('backend') }}/assets/js/notify.min.js"></script>
 <script src="{{ asset('backend') }}/assets/js/handlebars.js"></script>
 <script src="{{ asset('backend') }}/assets/js/ajax.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!--app JS-->
 <script src="{{ asset('backend') }}/assets/js/app.js"></script>
 

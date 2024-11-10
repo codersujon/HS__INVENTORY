@@ -40,9 +40,9 @@ class UnitController extends Controller
         ]);
 
         if($result){
-            sweetalert()->success('Unit Added Successfully!');
+            sweetalert()->timer(800)->success('Unit Added Successfully!');
         }else{
-            sweetalert()->error('Unit not added!');
+            sweetalert()->timer(800)->error('Unit not added!');
         }
 
         return redirect()->route('unit.all');
@@ -70,9 +70,9 @@ class UnitController extends Controller
         ]);
 
         if($result){
-            sweetalert()->success('Unit Updated Successfully!');
+            sweetalert()->timer(800)->success('Unit Updated Successfully!');
         }else{
-            sweetalert()->error('Unit not Updated!');
+            sweetalert()->timer(800)->error('Unit not Updated!');
         }
 
         return redirect()->route('unit.all');
@@ -86,11 +86,9 @@ class UnitController extends Controller
         $result = Unit::findOrFail($id)->delete();
 
         if($result){
-            sweetalert()->success('Unit Deleted Successfully!');
-        }else{
-            sweetalert()->error('Unit not Deleted!');
+            notyf()->position('y', 'top')->duration(1000)->success('Unit Deleted Successfully!');
         }
 
-        return redirect()->route('unit.all');
+        return redirect()->back();
     }
 }

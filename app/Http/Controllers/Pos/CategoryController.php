@@ -40,9 +40,9 @@ class CategoryController extends Controller
         ]);
 
         if($result){
-            sweetalert()->success('Category Added Successfully!');
+            sweetalert()->timer(800)->success('Category Added Successfully!');
         }else{
-            sweetalert()->error('Category not added!');
+            sweetalert()->timer(800)->error('Category not added!');
         }
 
         return redirect()->route('category.all');
@@ -71,9 +71,9 @@ class CategoryController extends Controller
         ]);
 
         if($result){
-            sweetalert()->success('Category Updated Successfully!');
+            sweetalert()->timer(800)->success('Category Updated Successfully!');
         }else{
-            sweetalert()->error('Category not Updated!');
+            sweetalert()->timer(800)->error('Category not Updated!');
         }
 
         return redirect()->route('category.all');
@@ -87,11 +87,11 @@ class CategoryController extends Controller
         $result = Category::findOrFail($id)->delete();
 
         if($result){
-            sweetalert()->success('Category Deleted Successfully!');
+            notyf()->position('y', 'top')->duration(1000)->success('Category Deleted Successfully!');
         }else{
-            sweetalert()->error('Category not Deleted!');
+            notyf()->position('y', 'top')->duration(1000)->error('Category not Deleted!');
         }
 
-        return redirect()->route('category.all');
+        return redirect()->back();
     }
 }

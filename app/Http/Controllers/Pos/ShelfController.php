@@ -38,9 +38,9 @@ class ShelfController extends Controller
         ]);
 
         if($result){
-            sweetalert()->success('Shelf Added Successfully!');
+            sweetalert()->timer(800)->success('Shelf Added Successfully!');
         }else{
-            sweetalert()->error('Shelf not added!');
+            sweetalert()->timer(800)->error('Shelf not added!');
         }
 
         return redirect()->route('shelves.all');
@@ -68,9 +68,9 @@ class ShelfController extends Controller
         ]);
 
         if($result){
-            sweetalert()->success('Shelf Updated Successfully!');
+            sweetalert()->timer(800)->success('Shelf Updated Successfully!');
         }else{
-            sweetalert()->error('Shelf not Updated!');
+            sweetalert()->timer(800)->error('Shelf not Updated!');
         }
 
         return redirect()->route('shelves.all');
@@ -84,11 +84,9 @@ class ShelfController extends Controller
         $result = Shelf::findOrFail($id)->delete();
 
         if($result){
-            sweetalert()->success('Shelf Deleted Successfully!');
-        }else{
-            sweetalert()->error('Shelf not Deleted!');
+            notyf()->position('y', 'top')->duration(1000)->success('Shelf Deleted Successfully!');
         }
 
-        return redirect()->route('shelves.all');
+        return redirect()->back();
     }
 }

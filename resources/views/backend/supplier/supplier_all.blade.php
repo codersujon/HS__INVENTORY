@@ -62,8 +62,6 @@
                                     <a href="{{ route('supplier.show', $supplier->id) }}" class="btn btn-sm btn-primary"><i class="lni lni-eye"></i>Details</a>
                                     <a href="{{ route('supplier.edit', $supplier->id) }}" class="btn btn-sm btn-dark"><i class="lni lni-pencil"></i>Edit</a>
                                     
-                                    <!-- <a href="{{ route('supplier.delete', $supplier->id) }}" class="btn btn-sm btn-danger"><i class="lni lni-trash"></i>Trash</a> -->
-                                    
                                     <button class="btn btn-sm btn-danger deleteSupplier" data-url="{{ route('supplier.delete', $supplier->id) }}">
                                         <i class="lni lni-trash"></i>Trash
                                     </button>
@@ -90,8 +88,6 @@
     </div>
 </div>
 
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.querySelectorAll('.deleteSupplier').forEach(function(deleteButton){
         
@@ -114,6 +110,7 @@
                     window.location.href = deleteUrl;
                 }
             });
+
         });
     });
 </script>

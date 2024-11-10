@@ -60,9 +60,9 @@ class CustomerController extends Controller
         $result = $customer->save();
 
         if($result){
-            sweetalert()->success('Customer Added Successfully!');
+            sweetalert()->timer(800)->success('Customer Added Successfully!');
         }else{
-            sweetalert()->error('Customer not added!');
+            sweetalert()->timer(800)->error('Customer not added!');
         }
 
         return redirect()->route('customer.all');
@@ -120,9 +120,9 @@ class CustomerController extends Controller
 
 
         if($result){
-            sweetalert()->success('Customer Updated Successfully!');
+            sweetalert()->timer(800)->success('Customer Updated Successfully!');
         }else{
-            sweetalert()->error('Customer not Updated!');
+            sweetalert()->timer(800)->error('Customer not Updated!');
         }
 
         return redirect()->route('customer.all');
@@ -139,11 +139,11 @@ class CustomerController extends Controller
         $result = Customer::findOrFail($id)->delete();
 
         if($result){
-            sweetalert()->success('Customer Deleted Successfully!');
+            notyf()->position('y', 'top')->duration(1000)->success('Customer Deleted Successfully!');
         }else{
-            sweetalert()->error('Customer not Deleted!');
+            notyf()->position('y', 'top')->duration(1000)->error('Customer not Deleted!');
         }
 
-        return redirect()->route('customer.all');
+        return redirect()->back();
     }
 }
