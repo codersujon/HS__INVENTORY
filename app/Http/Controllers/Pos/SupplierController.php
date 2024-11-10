@@ -114,7 +114,7 @@ class SupplierController extends Controller
             sweetalert()->error('Supplier not Deleted!');
         }
 
-        return redirect()->route('supplier.all');
+        return redirect()->back();
 
     }
 }

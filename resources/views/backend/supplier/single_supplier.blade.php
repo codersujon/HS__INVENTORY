@@ -23,6 +23,11 @@
         <div class="col-7">
             <div class="card">
                 <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-12 d-flex justify-content-end">
+                            <a href="{{ route('supplier.all') }}" class="btn btn-primary radius-30"><i class="bx bxs-arrow"></i>Back</a>
+                        </div>
+                    </div>
                     <div class="border p-4 rounded">
                         <div class="form-body">
                             <table class="table table-boarderd">
