@@ -71,7 +71,7 @@
                                         </div>
                                     @elseif($item->status == "3")
                                         <div class="d-flex align-items-center bg-light-danger text-danger rounded-pill px-3">	<i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
-                                            <span>Return</span>
+                                            <span>Returned</span>
                                         </div>
                                     @endif
 
@@ -89,7 +89,7 @@
                                         <a href="{{ route('invoice.details', $item->id) }}" class="btn btn-sm bg-primary text-white">
                                             <i class="lni lni-eye"></i> Details
                                         </a>
-                                        <a href="{{ route('invoice.print', $item->id) }}" target="_blank" class="btn btn-sm bg-danger text-white">
+                                        <a href="{{ route('invoice.print', $item->id) }}" target="_blank" class="btn btn-sm bg-info text-white">
                                             <i class="fadeIn animated bx bx-printer"></i> Print
                                         </a>
                                     @endif

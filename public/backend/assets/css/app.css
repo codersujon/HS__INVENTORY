@@ -2427,3 +2427,20 @@ input.search-control-2::placeholder {
 .invoice table .no {
     font-size: 1.3em;
 }
+
+.SteadFast {
+	background-color: #00b795;
+	color: #fff;
+	border-color: #00b795;
+	display: inherit;
+	margin-right: 15px;
+}
+
+.SteadFast:hover {
+	background-color: #00a486;
+	border-color: #00a486;
+}
+
+.SteadFast:focus {
+    box-shadow: 0 0 0 .25rem rgba(0, 164, 134, .5)
+}

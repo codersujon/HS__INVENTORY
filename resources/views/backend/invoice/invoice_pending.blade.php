@@ -1,10 +1,12 @@
 @extends('backend.master')
 
 @section('main-content')
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
 <div class="page-content">
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3">Pending Invoice List</div>
+        <div class="breadcrumb-title pe-3">Processing Invoice List</div>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
@@ -24,15 +26,21 @@
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-12 d-flex justify-content-end">
+                    <a href="{{ route('invoice.add') }}" class="btn btn-outline-primary radius-30 SteadFast" id="SteadFast">
+                        <i class="bx bx-right-arrow mt-0"></i> Steadfast Courier
+                    </a>
                     <a href="{{ route('invoice.add') }}" class="btn btn-primary radius-30">
                         <i class="bx bxs-plus-square"></i> Add Invoice
-                </a>
+                    </a>
                 </div>
             </div>
             <div class="table-responsive">
                 <table id="example2" class="table table-striped table-bordered">
                     <thead>
                         <tr>
+                            <th>
+                                <input type="checkbox" name="" id="select_all_ids">
+                            </th>
                             <th width="5%">#SN</th>
                             <th width="7%">Date</th>
                             <th width="7%">Invoice No</th>
@@ -47,6 +55,9 @@
 
                         @foreach ($allData as $key => $item)
                             <tr>
+                                <td>
+                                    <input type="checkbox" name="ids" class="checkbox_ids" id="" value="{{ $item->id }}">
+                                </td>
                                 <td>{{ $key+1; }}</td>
                                 <td class="text-center">{{ date('d-m-Y', strtotime($item->date)) }}</td>
                                 <td class="text-center">#{{ $item->invoice_no }}</td>
@@ -77,6 +88,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
+                            <th></th>
                             <th>#SN</th>
                             <th>Date</th>
                             <th>Invoice No</th>
@@ -104,7 +116,7 @@
             const deleteUrl = this.getAttribute('data-url');
             Swal.fire({
                 title: "Are you sure?",
-                text: "You want to approve the invoice items!",
+                text: "You want to approve as On Delivery Invoice!",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#17a00e",
@@ -147,6 +159,40 @@
         });
     });
     
+</script>
+
+<script>
+    // Select All Processing Ids
+    $(document).ready(function(e){
+
+        $("#select_all_ids").on("click", function(){
+            $(".checkbox_ids").prop('checked', $(this).prop('checked'));
+        });
+
+        // Send To SteadFast Courier
+        $("#SteadFast").on("click", function(e){
+            e.preventDefault();
+
+            let all_ids = [];
+            $('input:checkbox[name=ids]:checked').each(function(){
+                all_ids.push($(this).val());
+            });
+
+            // All Ids Sends
+            $.ajax({
+                url: "",
+                type: "POST",
+                data: {
+                    id: all_ids,
+                    _token: '{{ csrf_token() }}'
+                },
+                success:function(response){
+                    console.log("Done!");
+                }
+            });
+        });
+
+    });
 </script>
 
 @endsection

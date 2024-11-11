@@ -286,7 +286,13 @@
                                             <span>On Delivery</span>
                                         </div>
                                     @elseif($item->status == "2")
-                                        <div class="badge rounded-pill bg-success w-100">Delivered</div>
+                                        <div class="d-flex align-items-center text-success rounded-pill px-3">	<i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
+                                            <span>Delivered</span>
+                                        </div>
+                                    @elseif($item->status == "3")
+                                        <div class="d-flex align-items-center text-danger rounded-pill px-3">	<i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
+                                            <span>Returned</span>
+                                        </div>
                                     @endif
                                     </td>
                                 </tr>
