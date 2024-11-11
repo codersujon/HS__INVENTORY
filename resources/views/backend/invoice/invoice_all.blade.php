@@ -51,7 +51,7 @@
                                 <td class="text-center">{{ date('d-m-Y', strtotime($item->date)) }}</td>
                                 <td class="text-center">#{{ $item->invoice_no }}</td>
                                 <td>{{ $item['payment']['customer']['customer_name'] }}</td>
-                                <td class="text-end">{{  number_format($item['payment']['total_amount'], 2) }}</td>
+                                <td class="text-center">{{  number_format($item['payment']['total_amount'], 2) }}</td>
                                 <td style="word-wrap: break-word; min-width:200px; max-width:200px; white-space:normal;">{{ $item->description }}</td>
                                 <td>
 
@@ -70,19 +70,17 @@
                                             <span>Delivered</span>
                                         </div>
                                     @elseif($item->status == "3")
-                                        <div class="d-flex align-items-center bg-light-danger text-success rounded-pill px-3">	<i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
+                                        <div class="d-flex align-items-center bg-light-danger text-danger rounded-pill px-3">	<i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
                                             <span>Return</span>
                                         </div>
                                     @endif
 
-
-
                                 </td>
                                 <td>
                                     @if($item->status == "0")
-                                        <a href="{{ route('invoice.destroy', $item->id) }}" class="btn btn-sm btn-danger">
+                                        <button class="btn btn-sm btn-danger deleteInvoice" data-url="{{ route('invoice.destroy', $item->id) }}">
                                             <i class="lni lni-trash"></i>Trash
-                                        </a>
+                                        </button>
                                     {{-- @elseif($item->status == "1")
                                         <a href="{{ route('invoice.deliver', $item->id) }}" class="btn btn-sm btn-success">
                                             <i class="lni lni-checkmark-circle"></i>
@@ -119,6 +117,33 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelectorAll('.deleteInvoice').forEach(function(deleteButton){
+        
+        deleteButton.addEventListener('click', function(e){
+            e.preventDefault();
+            
+            const deleteUrl = this.getAttribute('data-url');
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You want to delete the invoice!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#0d6efd",
+                cancelButtonColor: "#f41127",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: 'No, cancel!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms, redirect to the delete URL
+                    window.location.href = deleteUrl;
+                }
+            });
+
+        });
+    });
+</script>
 
 @endsection
 

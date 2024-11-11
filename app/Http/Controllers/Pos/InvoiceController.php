@@ -27,7 +27,7 @@ class InvoiceController extends Controller
      * Invoice All
      */
     public function index(){
-       $allData = Invoice::orderBy('date', 'DESC')->orderBy('id', 'DESC')->whereIn('status', [0, 1, 2])->get();
+       $allData = Invoice::orderBy('date', 'DESC')->orderBy('id', 'DESC')->whereIn('status', [0, 1, 2, 3])->get();
        return view('backend.invoice.invoice_all', compact('allData'));
     }
 
@@ -69,24 +69,28 @@ class InvoiceController extends Controller
             notyf()
                 ->position('x', 'right')
                 ->position('y', 'top')
+                ->duration(2000)
                 ->error("Sorry! You don't select any item");
             return redirect()->back();
        }else if($request->paid_status == null){
             notyf()
             ->position('x', 'right')
             ->position('y', 'top')
+            ->duration(2000)
             ->error("Paid status not found");
             return redirect()->back();
        }else if($request->customer_id == null){
             notyf()
             ->position('x', 'right')
             ->position('y', 'top')
+            ->duration(2000)
             ->error("Customer info can't be empty!");
             return redirect()->back();
        }else if($request->description == null){
             notyf()
             ->position('x', 'right')
             ->position('y', 'top')
+            ->duration(2000)
             ->error("Address can't be empty");
             return redirect()->back();
        }else{
@@ -94,6 +98,7 @@ class InvoiceController extends Controller
                 notyf()
                     ->position('x', 'right')
                     ->position('y', 'top')
+                    ->duration(2000)
                     ->error("Sorry! Paid amount is maximum the total price.");
                 return redirect()->back();
             }else{
@@ -113,12 +118,14 @@ class InvoiceController extends Controller
                         notyf()
                             ->position('x', 'right')
                             ->position('y', 'top')
+                            ->duration(2000)
                             ->error("Product Selling quantity required!");
                             return redirect()->back();
                     }else if($request->unit_price[$f] == null){
                         notyf()
                         ->position('x', 'right')
                         ->position('y', 'top')
+                        ->duration(2000)
                         ->error("Selling price required!");
                         return redirect()->back();
                     }else{
@@ -192,7 +199,8 @@ class InvoiceController extends Controller
         notyf()
             ->position('x', 'right')
             ->position('y', 'top')
-            ->success('Sales Invoice Inserted Successfully!');
+            ->duration(1000)
+            ->success('Sales Invoice Saved!');
         return Redirect()->route('invoice.pending');
     }
 
@@ -274,6 +282,7 @@ class InvoiceController extends Controller
         notyf()
             ->position('x', 'right')
             ->position('y', 'top')
+            ->duration(1000)
             ->success('Invoice Deleted Successfully!');
         return Redirect()->route('invoice.pending');
      }
@@ -292,6 +301,7 @@ class InvoiceController extends Controller
                 notyf()
                 ->position('x', 'right')
                 ->position('y', 'top')
+                ->duration(2000)
                 ->error('Sorry! You do not have enough quantity of product in stock.');
                 return redirect()->back();
             } // End if
@@ -313,7 +323,7 @@ class InvoiceController extends Controller
         $result = $invoice->update();
 
         if($result){
-            sweetalert()->success('Invoice On Delivery Successfully!');
+            sweetalert()->timer(800)->success('Invoice On Delivery Successfully!');
             return redirect()->route('invoice.all');
         }
 
@@ -349,7 +359,7 @@ class InvoiceController extends Controller
         $result = $invoice->update();
 
         if($result){
-            sweetalert()->success('Sales Return Successfully!');
+            sweetalert()->timer(1000)->success('Sales Return Successfully!');
             return redirect()->route('invoice.all');
         }
     }

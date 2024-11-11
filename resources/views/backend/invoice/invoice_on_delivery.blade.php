@@ -51,7 +51,7 @@
                                 <td class="text-center">{{ date('d-m-Y', strtotime($item->date)) }}</td>
                                 <td class="text-center">#{{ $item->invoice_no }}</td>
                                 <td>{{ $item['payment']['customer']['customer_name'] }}</td>
-                                <td class="text-end">{{  number_format($item['payment']['total_amount'], 2) }}</td>
+                                <td class="text-center">{{  number_format($item['payment']['total_amount'], 2) }}</td>
                                 <td style="word-wrap: break-word; min-width:200px; max-width:200px; white-space:normal;">{{ $item->description }}</td>
                                 <td>
                                     @if ($item->status == "1")
@@ -62,9 +62,10 @@
                                 </td>
                                 <td>
                                     @if($item->status == "1")
-                                        <a href="{{ route('invoice.deliver', $item->id) }}" class="btn btn-sm btn-success">
+                                        <button class="btn btn-sm btn-success approveOnDelivery" data-url="{{ route('invoice.deliver', $item->id) }}">
                                             <i class="lni lni-checkmark-circle"></i> Approve
-                                        </a>
+                                        </button>
+
                                         <a href="{{ route('invoice.return', $item->id) }}" class="btn btn-sm btn-warning">
                                             <i class="lni lni-spinner-arrow"></i> Return
                                         </a>
@@ -93,6 +94,36 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    // Approve Processing
+    document.querySelectorAll('.approveOnDelivery').forEach(function(deleteButton){
+        
+        deleteButton.addEventListener('click', function(e){
+            e.preventDefault();
+            
+            const deleteUrl = this.getAttribute('data-url');
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You want to approve as delivered!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#17a00e",
+                cancelButtonColor: "#f41127",
+                confirmButtonText: "Approve it!",
+                cancelButtonText: 'Cancel!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms, redirect to the delete URL
+                    window.location.href = deleteUrl;
+                }
+            });
+
+        });
+    });
+
+</script>
 
 @endsection
 

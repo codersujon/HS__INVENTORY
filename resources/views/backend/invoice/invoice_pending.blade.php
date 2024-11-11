@@ -51,7 +51,7 @@
                                 <td class="text-center">{{ date('d-m-Y', strtotime($item->date)) }}</td>
                                 <td class="text-center">#{{ $item->invoice_no }}</td>
                                 <td>{{ $item['payment']['customer']['customer_name'] }}</td>
-                                <td class="text-end">{{  number_format($item['payment']['total_amount'], 2) }}</td>
+                                <td class="text-center">{{  number_format($item['payment']['total_amount'], 2) }}</td>
                                 <td style="word-wrap: break-word; min-width:200px; max-width:200px; white-space:normal;">{{ $item->description }}</td>
                                 <td class="text-center">
                                     @if ($item->status == "0")
@@ -62,12 +62,13 @@
                                 </td>
                                 <td>
                                     @if($item->status == "0")
-                                        <a href="{{ route('invoice.approve', $item->id) }}" class="btn btn-sm btn-success">
+                                        <button class="btn btn-sm btn-success approveProcessing" data-url="{{ route('invoice.approve', $item->id) }}">
                                             <i class="lni lni-checkmark-circle"></i> Approve
-                                        </a>
-                                        <a href="{{ route('invoice.destroy', $item->id) }}" class="btn btn-sm btn-danger">
+                                        </button>
+                                        
+                                        <button class="btn btn-sm btn-danger deleteInvoice" data-url="{{ route('invoice.destroy', $item->id) }}">
                                             <i class="lni lni-trash"></i> Trash
-                                        </a>
+                                        </button>
                                     @endif
                                 </td>
                             </tr>
@@ -91,6 +92,62 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    // Approve Processing
+    document.querySelectorAll('.approveProcessing').forEach(function(deleteButton){
+        
+        deleteButton.addEventListener('click', function(e){
+            e.preventDefault();
+            
+            const deleteUrl = this.getAttribute('data-url');
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You want to approve the invoice items!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#17a00e",
+                cancelButtonColor: "#f41127",
+                confirmButtonText: "Approve it!",
+                cancelButtonText: 'Cancel!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms, redirect to the delete URL
+                    window.location.href = deleteUrl;
+                }
+            });
+
+        });
+    });
+
+    // Delete Invoice
+    document.querySelectorAll('.deleteInvoice').forEach(function(deleteButton){
+        
+        deleteButton.addEventListener('click', function(e){
+            e.preventDefault();
+            
+            const deleteUrl = this.getAttribute('data-url');
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You want to delete the invoice items!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#0d6efd",
+                cancelButtonColor: "#f41127",
+                confirmButtonText: "Delete it!",
+                cancelButtonText: 'Cancel!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms, redirect to the delete URL
+                    window.location.href = deleteUrl;
+                }
+            });
+
+        });
+    });
+    
+</script>
 
 @endsection
 
