@@ -81,7 +81,7 @@ class PurchaseController extends Controller
                 $purchase->created_at = now();
                 $purchase->save();
             }
-            sweetalert()->success('Purchase Save Successfully!');
+            sweetalert()->timer(800)->success('Purchase Save Successfully!');
         }
 
         return redirect()->route('purchase.all');
@@ -118,14 +118,12 @@ class PurchaseController extends Controller
     {
 
         if($id != null){
-        //    sweetalert()->showCancelButton(true, "Yes, delete it!", "#d33", "You won't be able to revert this!")->error('Are you sure?');
+      
             $result = Purchase::findOrFail($id)->delete();
 
             if($result){
-                sweetalert()->success('Purchase Item Deleted Successfully!');
+                notyf()->position('y', 'top')->duration(1000)->success('Purchase Item Deleted Successfully!');
             }
-        }else{
-            sweetalert()->error('Purchase Item not Deleted');
         }
 
         return redirect()->back();
@@ -180,7 +178,7 @@ class PurchaseController extends Controller
                 "status" => '1'
             ]);
 
-            sweetalert()->success('Purchase Approved Successfully!');
+            notyf()->position('y', 'top')->duration(1000)->success('Purchase Approved!');
 
             return redirect()->back();
         }

@@ -62,9 +62,9 @@
                                 <td>
 
                                     @if($item->status == "0")
-                                        <a href="{{ route('purchase.approve', $item->id) }}" class="btn btn-sm btn-success">
-                                            <i class="lni lni-checkmark-circle"></i>
-                                        </a>
+                                        <button class="btn btn-sm btn-success approvePurchase" data-url="{{ route('purchase.approve', $item->id) }}">
+                                            <i class="lni lni-checkmark-circle"></i>Approve
+                                        </button>
                                     @endif
 
                                 </td>
@@ -93,6 +93,33 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelectorAll('.approvePurchase').forEach(function(deleteButton){
+        
+        deleteButton.addEventListener('click', function(e){
+            e.preventDefault();
+            
+            const deleteUrl = this.getAttribute('data-url');
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You want to approve the purchase items!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#17a00e",
+                cancelButtonColor: "#f41127",
+                confirmButtonText: "Approve it!",
+                cancelButtonText: 'Cancel!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms, redirect to the delete URL
+                    window.location.href = deleteUrl;
+                }
+            });
+
+        });
+    });
+</script>
 
 @endsection
 

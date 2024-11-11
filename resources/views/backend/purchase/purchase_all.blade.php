@@ -69,7 +69,9 @@
                                 <td>
 
                                     @if($item->status == "0")
-                                        <a href="{{ route('purchase.delete', $item->id) }}" class="btn btn-sm btn-danger"><i class="lni lni-trash"></i></a>
+                                        <button class="btn btn-sm btn-danger deletePurchase" data-url="{{ route('purchase.delete', $item->id) }}">
+                                            <i class="lni lni-trash"></i>Trash
+                                        </button>
                                     @endif
 
                                 </td>
@@ -97,6 +99,33 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelectorAll('.deletePurchase').forEach(function(deleteButton){
+        
+        deleteButton.addEventListener('click', function(e){
+            e.preventDefault();
+            
+            const deleteUrl = this.getAttribute('data-url');
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You want to delete the purchase items!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#0d6efd",
+                cancelButtonColor: "#f41127",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: 'No, cancel!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If user confirms, redirect to the delete URL
+                    window.location.href = deleteUrl;
+                }
+            });
+
+        });
+    });
+</script>
 
 @endsection
 
