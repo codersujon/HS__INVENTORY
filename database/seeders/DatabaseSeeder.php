@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         
         $this->call([
             UserTableSeeder::class,
+            CourierApiTableSeeder::class
         ]);
 
         // User::factory(5)->create();

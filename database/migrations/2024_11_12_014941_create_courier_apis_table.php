@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('api_key')->nullable();
             $table->string('secret_key')->nullable();
             $table->string('url')->nullable();
+            $table->boolean('status')->default(0);
             $table->string('token')->nullable();
             $table->timestamps();
         });

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use  App\Models\CourierApi;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 class CourierController extends Controller
 {
@@ -11,7 +14,11 @@ class CourierController extends Controller
      */
     public function index()
     {
-        return view('backend.courier.index');
+        $steadfast = CourierApi::where([
+            ['type', '=', 'steadfast'],
+            ['status', '=', 1]
+        ])->first();
+        return view('backend.courier.index', compact('steadfast'));
     }
 
     /**
@@ -51,7 +58,30 @@ class CourierController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $steadfast = CourierApi::find($id);
+
+        $validation = $request->validate([
+            'api_key' => 'required',
+            'secret_key' => 'required',
+            'url' => 'required',
+            'status' => 'required',
+        ]);
+
+        if($validation){
+            $result = $steadfast->update([
+                "api_key" => $request->api_key,
+                "secret_key" => $request->secret_key,
+                "url" => $request->url,
+                "status" => $request->status,
+                "updated_at" => Carbon::now()
+            ]);
+
+            if($result){
+                notyf()->position('y', 'top')->duration(2000)->success('API Added Successfully!');
+            }
+        }
+
+        return redirect()->back();
     }
 
     /**

@@ -33,28 +33,32 @@
                                     <h4 class="mb-0 text-primary">Steadfast Courier</h4>
                                 </div>
                                 <hr>
-                                <form class="row g-3 needs-validation" novalidate="">
+                                <form class="row g-3 needs-validation" action="{{ route('courier.api.update', $steadfast->id) }}" method="POST">
+                                    @csrf
+
                                     {{-- API Key --}}
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-6">
                                         <label for="api_key" class="form-label">API Key <span>*</span></label>
-                                        <input type="text" class="form-control" name="api_key" id="api_key" placeholder="API Key">
+                                        <input type="text" class="form-control" name="api_key" id="api_key" placeholder="API Key" value="{{ $steadfast->api_key }}">
                                     </div>
+
                                     {{-- Secret Key --}}
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-6">
                                         <label for="secret_key" class="form-label">Secret Key <span>*</span></label>
-                                        <input type="text" class="form-control" name="secret_key" id="secret_key" placeholder="Secret Key">
+                                        <input type="text" class="form-control" name="secret_key" id="secret_key" placeholder="Secret Key" value="{{ $steadfast->secret_key }}">
                                     </div>
+
                                     {{-- URL --}}
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-12">
                                         <label for="url" class="form-label">URL <span>*</span></label>
-                                        <input type="text" class="form-control" name="url" id="url" placeholder="Type URL">
+                                        <input type="text" class="form-control" name="url" id="url" placeholder="Type URL" value="{{ $steadfast->url }}">
                                     </div>
+
                                     {{-- Status --}}
                                     <div class="form-group col-md-12">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="status" required="">
+                                            <input class="form-check-input" type="checkbox" name="status" value="1" id="status" {{ $steadfast->status == 1 ? 'checked' : '' }} checked>
                                             <label class="form-check-label" for="status">Status</label>
-                                            <div class="invalid-feedback">You must agree before submitting.</div>
                                         </div>
                                     </div>
                                     <div class="col-12">

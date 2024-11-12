@@ -107,9 +107,9 @@ Route::middleware('auth')->group(function(){
 Route::middleware('auth')->group(function(){
     Route::controller(CourierController::class)->group(function(){
         Route::get('/courier/api', 'index')->name('courier.api');
+        Route::post('/courier/update/api/{id}', 'update')->name('courier.api.update');
     });
 });
-
 
 
 /**

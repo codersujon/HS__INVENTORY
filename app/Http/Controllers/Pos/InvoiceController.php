@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+use GuzzleHttp\Client;
+use App\Models\CourierApi;
+
 use App\Models\Supplier;
 use App\Models\Unit;
 use App\Models\Category;
@@ -406,21 +409,23 @@ class InvoiceController extends Controller
       */
 
       public function bulk_courier(Request $request, $slug){
-        dd($request->all());
-        $courier_info = Courierapi::where(['status' => 1, 'type' => $slug])->first();
+        
+        $courier_info = CourierApi::where(['status' => 1, 'type' => $slug])->first();
         
         if ($courier_info) {
-            $orders_id = $request->order_ids;
+            $orders_id = $request->id;
             foreach ($orders_id as $order_id) {
-                $order = Order::find($order_id);
-                $courier = $order->order_status;
+                $order = Invoice::where('id', $order_id)->where('status', 0)->first();
+                $payment = Payment::with('customer')->where('invoice_id', $request->id)->first();
+                $courier = $order->status;
+
                 if ($courier != 5) {
                     $consignmentData = [
-                        'invoice' => $order->invoice_id,
-                        'recipient_name' => $order->shipping ? $order->shipping->name : 'InboxHat',
-                        'recipient_phone' => $order->shipping ? $order->shipping->phone : '01680366446',
-                        'recipient_address' => $order->shipping ? $order->shipping->address : '01680366446',
-                        'cod_amount' => $order->amount
+                        'invoice' => $order->invoice_no,
+                        'recipient_name' => $payment->customer ? $payment->customer->customer_name : 'InboxHat',
+                        'recipient_phone' => $payment->customer ? $payment->customer->c_phone : '01680366446',
+                        'recipient_address' => $order->description ? $order->description : '01680366446',
+                        'cod_amount' => $payment->total_amount
                     ];
 
                     $client = new Client();
@@ -434,16 +439,23 @@ class InvoiceController extends Controller
                     ]);
 
                     $responseData = json_decode($response->getBody(), true);
-                    if ($responseData['status'] == 200) {
-                        $message = 'Your order place to courier successfully';
-                        $status = 'success';
-                        $order->order_status = 4;
-                        $order->save();
-                    } else {
-                        $message = 'Your order place to courier failed';
-                        $status = 'failed';
+                    if($responseData['status'] == 200){
+                        notyf()
+                        ->position('x', 'right')
+                        ->position('y', 'top')
+                        ->duration(2000)
+                        ->success('Your order place to courier successfully!');
                     }
-                    return response()->json(['status' => $status, 'message' => $message]);
+                    // if ($responseData['status'] == 200) {
+                    //     $message = 'Your order place to courier successfully';
+                    //     $status = 'success';
+                    //     $order->status = 1;
+                    //     $order->save();
+                    // } else {
+                    //     $message = 'Your order place to courier failed';
+                    //     $status = 'failed';
+                    // }
+                    return redirect()->back();
                 }
                 
             }
