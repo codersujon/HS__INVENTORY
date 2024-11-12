@@ -3,7 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
+
+use App\Http\Controllers\CourierController;
 use App\Http\Controllers\Pos\CustomerController;
 use App\Http\Controllers\Pos\SupplierController;
 use App\Http\Controllers\Pos\UnitController;
@@ -14,11 +15,13 @@ use App\Http\Controllers\Pos\InvoiceController;
 use App\Http\Controllers\Pos\StockController;
 use App\Http\Controllers\Pos\ShelfController;
 use App\Http\Controllers\Pos\PdfController;
+use App\Models\CourierApi;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\Customer;
 use App\Models\Category;
 use App\Models\Invoice;
+use App\Models\User;
 
 
 
@@ -52,8 +55,6 @@ Route::get('generate-pdf', [PdfController::class, 'generatePdf'])->name('generat
 Route::controller(PdfController::class)->group(function(){
     Route::get('/invoice/print/{id}', 'invoicePrint')->name('invoice.print');
 });
-
-
 
 
 /**
@@ -93,8 +94,23 @@ Route::middleware('auth')->group(function(){
         Route::get('/invoice/return/{id}', 'invoiceReturn')->name('invoice.return');
         Route::post('/invoice/return/store/{id}', 'invoiceReturnStore')->name('invoice.return.store');
         Route::get('/invoice/returned', 'invoiceReturned')->name('invoice.returned'); 
+
+        // Bluk Order Create
+        Route::get('/bulk-courier/{slug}', 'bulk_courier')->name('bulk_courier');
     });
 });
+
+
+/**
+ * COURIER API MANAGEMENT
+ */
+Route::middleware('auth')->group(function(){
+    Route::controller(CourierController::class)->group(function(){
+        Route::get('/courier/api', 'index')->name('courier.api');
+    });
+});
+
+
 
 /**
  * MANAGE PURCHASE

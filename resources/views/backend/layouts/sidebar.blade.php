@@ -158,6 +158,21 @@
                 </li>
             </ul>
         </li>
+       
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon">
+                    <i class="fadeIn animated bx bx-file"></i>
+                </div>
+                <div class="menu-title">API Integration</div>
+            </a>
+            <ul>
+                <li>
+                    <a href="{{ route('courier.api') }}"><i class="bx bx-right-arrow-alt"></i>Courier API</a>
+                </li>
+            </ul>
+        </li>
+       
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon">
@@ -180,6 +195,7 @@
                 </li>
             </ul>
         </li>
+        
         <li>
             <a href="{{ route('logout') }}">
                 <div class="parent-icon"><i class="lni lni-exit"></i>

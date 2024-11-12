@@ -400,4 +400,57 @@ class InvoiceController extends Controller
         return view('backend.invoice.invoice_daily_report_pdf', compact('allData', 'start_date', 'end_date'));
      }
 
+
+     /**
+      * Order Assin to SteadFast Courier
+      */
+
+      public function bulk_courier(Request $request, $slug){
+        dd($request->all());
+        $courier_info = Courierapi::where(['status' => 1, 'type' => $slug])->first();
+        
+        if ($courier_info) {
+            $orders_id = $request->order_ids;
+            foreach ($orders_id as $order_id) {
+                $order = Order::find($order_id);
+                $courier = $order->order_status;
+                if ($courier != 5) {
+                    $consignmentData = [
+                        'invoice' => $order->invoice_id,
+                        'recipient_name' => $order->shipping ? $order->shipping->name : 'InboxHat',
+                        'recipient_phone' => $order->shipping ? $order->shipping->phone : '01680366446',
+                        'recipient_address' => $order->shipping ? $order->shipping->address : '01680366446',
+                        'cod_amount' => $order->amount
+                    ];
+
+                    $client = new Client();
+                    $response = $client->post($courier_info->url, [
+                        'json' => $consignmentData,
+                        'headers' => [
+                            'Api-Key' => $courier_info->api_key,
+                            'Secret-Key' => $courier_info->secret_key,
+                            'Accept' => 'application/json',
+                        ],
+                    ]);
+
+                    $responseData = json_decode($response->getBody(), true);
+                    if ($responseData['status'] == 200) {
+                        $message = 'Your order place to courier successfully';
+                        $status = 'success';
+                        $order->order_status = 4;
+                        $order->save();
+                    } else {
+                        $message = 'Your order place to courier failed';
+                        $status = 'failed';
+                    }
+                    return response()->json(['status' => $status, 'message' => $message]);
+                }
+                
+            }
+        } else {
+            return "stop";
+        }
+        
+      }
+
 }

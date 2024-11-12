@@ -26,7 +26,7 @@
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-12 d-flex justify-content-end">
-                    <a href="{{ route('invoice.add') }}" class="btn btn-outline-primary radius-30 SteadFast" id="SteadFast">
+                    <a href="{{ route('bulk_courier', 'steadfast') }}" class="btn btn-outline-primary radius-30 SteadFast" id="SteadFast">
                         <i class="bx bx-right-arrow mt-0"></i> Steadfast Courier
                     </a>
                     <a href="{{ route('invoice.add') }}" class="btn btn-primary radius-30">
@@ -169,19 +169,21 @@
             $(".checkbox_ids").prop('checked', $(this).prop('checked'));
         });
 
-        // Send To SteadFast Courier
+        // Order Assin To SteadFast Courier
         $("#SteadFast").on("click", function(e){
             e.preventDefault();
-
+            let url = $(this).attr('href');
             let all_ids = [];
             $('input:checkbox[name=ids]:checked').each(function(){
                 all_ids.push($(this).val());
             });
 
+            console.log(all_ids);
+
             // All Ids Sends
             $.ajax({
-                url: "",
-                type: "POST",
+                url: url,
+                type: "GET",
                 data: {
                     id: all_ids,
                     _token: '{{ csrf_token() }}'
