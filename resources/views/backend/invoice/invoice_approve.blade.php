@@ -101,6 +101,10 @@
                             <tr>
                                 <td colspan="6" class="text-end"><strong>Sub Total</strong></td>
                                 <td class="text-end"><strong>{{ number_format($total_sum, 2) }}</strong></td>
+                            </tr> 
+                            <tr>
+                                <td colspan="6" class="text-end">Shipping Charge</td>
+                                <td class="text-end">{{ number_format($payment->shipping_charge, 2) }}</td>
                             </tr>
                             <tr>
                                 <td colspan="6" class="text-end">Discount Amount</td>
@@ -116,7 +120,7 @@
                             </tr>
                             <tr>
                                 <td colspan="6" class="text-end"><strong>Grand Total</strong></td>
-                                <td class="text-end"><strong>{{ number_format($payment->total_amount, 2) }}</strong>
+                                <td class="text-end"><strong>{{ number_format($payment->total_amount + $payment->shipping_charge, 2) }}</strong>
                                 </td>
                             </tr>
                         </tbody>

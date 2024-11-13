@@ -51,8 +51,8 @@
                                 <td class="text-center">{{ date('d-m-Y', strtotime($item->date)) }}</td>
                                 <td class="text-center">#{{ $item->invoice_no }}</td>
                                 <td>{{ $item['payment']['customer']['customer_name'] }}</td>
-                                <td class="text-center">{{  number_format($item['payment']['total_amount'], 2) }}</td>
-                                <td style="word-wrap: break-word; min-width:200px; max-width:200px; white-space:normal;">{{ $item->description }}</td>
+                                <td class="text-center">{{  number_format($item['payment']['due_amount'], 2) }}</td>
+                                <td style="word-wrap: break-word; min-width:200px; max-width:200px; white-space:normal;">{{ $item['payment']['customer']['address'] }}</td>
                                 <td>
 
                                     @if($item->status == "0")

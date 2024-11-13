@@ -94,8 +94,8 @@
                 text: "You want to delete the Shelf!",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
+                confirmButtonColor: "#0d6efd",
+                cancelButtonColor: "#f41127",
                 confirmButtonText: "Yes, delete it!",
                 cancelButtonText: 'No, cancel!',
             }).then((result) => {

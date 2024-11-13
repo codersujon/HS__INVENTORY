@@ -62,7 +62,7 @@
                                 <td class="text-center">{{ date('d-m-Y', strtotime($item->date)) }}</td>
                                 <td class="text-center">#{{ $item->invoice_no }}</td>
                                 <td>{{ $item['payment']['customer']['customer_name'] }}</td>
-                                <td class="text-center">{{  number_format($item['payment']['total_amount'], 2) }}</td>
+                                <td class="text-center">{{  number_format($item['payment']['due_amount'], 2) }}</td>
                                 <td style="word-wrap: break-word; min-width:200px; max-width:200px; white-space:normal;">{{ $item->description }}</td>
                                 <td class="text-center">
                                     @if ($item->status == "0")
@@ -189,7 +189,39 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success:function(response){
-                    console.log("Done!");
+                    if(response.status == "success"){
+                        const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                        });
+                        Toast.fire({
+                        icon: "success",
+                        title: response.message
+                        });
+                    }else{
+                        const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                        });
+                        Toast.fire({
+                        icon: "error",
+                        title: response.message
+                        });
+                    }
                 }
             });
         });

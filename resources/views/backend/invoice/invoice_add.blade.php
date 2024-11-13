@@ -31,8 +31,6 @@
                 <div class="card-body">
                     <div class="p-4 border rounded">
 
-
-
                         <form class="row g-3 pb-2">
 
                             <div class="row">
@@ -41,7 +39,7 @@
                                    <label for="invoice_no" class="form-label">Invoice No</label>
                                    <input class="form-control" type="text" id="invoice_no" name="invoice_no" value="{{ mt_rand(100000,999999) }}">
                                </div>
-                           </div>
+                            </div>
 
                             {{-- invoice date --}}
                             <div class="form-group col-md-2">
@@ -103,11 +101,7 @@
                                 <tbody id="addRow" class="addRow">
 
 
-
-
                                     {{-- PRODUCT INSERT --}}
-
-
 
 
                                 </tbody>
@@ -134,19 +128,7 @@
 
                             {{-- paid status --}}
                             <div class="row mb-3">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="paid_status">Paid Status</label>
-                                        <select name="paid_status" id="paid_status" class="form-select">
-                                            <option value="">Select Status</option>
-                                            <option value="full_paid">Full Paid</option>
-                                            <option value="full_due">Full Due</option>
-                                            <option value="partial_paid">Partial Paid</option>
-                                        </select>
-                                        <input type="text" name="paid_amount" id="paid_amount" class="form-control" placeholder="Enter Paid Amount" style="display: none;">
-                                    </div>
-                                </div>
-                                <div class="col-md-9">
+                                <div class="col-md-5">
                                     {{-- customer name --}}
                                     <div class="form-group">
                                         <label for="customer_id">Customer Name</label>
@@ -157,6 +139,31 @@
                                                 <option value="{{ $customer->id }}">{{ $customer->customer_name }} - {{ $customer->c_phone }}</option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    {{-- shipping charge --}}
+                                    <div class="form-group">
+                                        <label for="shipping_charge">Shipping Charge</label>
+                                        <select name="shipping_charge" id="shipping_charge" class="form-select single-select">
+                                            <option value="">Select Delivery Charge</option>
+                                            @foreach($shippingCharges as $shipping)
+                                                <option value="{{ $shipping->amount }}">{{ $shipping->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    {{-- paid status --}}
+                                    <div class="form-group">
+                                        <label for="paid_status">Paid Status</label>
+                                        <select name="paid_status" id="paid_status" class="form-select">
+                                            <option value="">Select Status</option>
+                                            <option value="full_paid">Full Paid</option>
+                                            <option value="full_due">Full Due</option>
+                                            <option value="partial_paid">Partial Paid</option>
+                                        </select>
+                                        <input type="text" name="paid_amount" id="paid_amount" class="form-control" placeholder="Enter Paid Amount" style="display: none;">
                                     </div>
                                 </div>
                             </div> <!-- End Row -->
@@ -183,9 +190,16 @@
                             {{-- End Customer Add Form --}}
 
                             {{-- Address --}}
-                             <div class="form-row mb-3">
-                                <div class="form-group col-md-12">
-                                    <textarea name="description" id="description" rows="2" placeholder="Write Address" class="form-control"></textarea>
+                            <div class="row mb-3">
+                                <div class="form-group col-md-6">
+                                    <div class="form-group col-md-12">
+                                        <textarea name="address" id="address" rows="1" placeholder="Write Address" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <div class="form-group col-md-12">
+                                        <textarea name="note" id="note" rows="1" class="form-control">প্রোডাক্ট না নিলে অবশ্যই ডেলিভারি চার্জ 120 টাকা নিতে হবে।</textarea>
+                                    </div>
                                 </div>
                             </div>
 

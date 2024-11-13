@@ -197,6 +197,10 @@
                 <td colspan="1" class="total-heading text-end">{{ number_format($total_sum, 2) }}</td>
             </tr>
             <tr>
+                <td colspan="5" class="text-end">Shipping Charge</td>
+                <td colspan="1" class="text-end">{{number_format($data['payment']['shipping_charge'], 2) }}</td>
+            </tr>
+            <tr>
                 <td colspan="5" class="text-end">Discount Amount:</td>
                 <td colspan="1" class="text-end">{{ number_format($data['payment']['discount_amount'], 2) }}</td>
             </tr>

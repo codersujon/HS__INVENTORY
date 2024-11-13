@@ -41,11 +41,7 @@
                                     </div>
                                     <div class="col company-details">
 
-                                        <h2 class="name">
-                                            <a target="_blank" href="https://hypershop.com.bd/">
-                                                Hypershop.com.bd
-                                            </a>
-                                        </h2>
+                                       
                                         <div>914, Floor 9(Lift-8), Shah Ali Plaza, Mirpur-10,Dha ka, Bangladesh</div>
                                         <div>+8801822-666664</div>
                                         <div>support@hypershop.com.bd</div>

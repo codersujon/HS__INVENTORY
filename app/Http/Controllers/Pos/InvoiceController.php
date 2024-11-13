@@ -18,6 +18,7 @@ use App\Models\Purchase;
 
 use App\Models\Customer;
 
+use App\Models\ShippingCharge;
 use App\Models\Invoice;
 use App\Models\InvoiceDetail;
 use App\Models\Payment;
@@ -41,6 +42,7 @@ class InvoiceController extends Controller
         $category = Category::all();
         $invoice_data = Invoice::orderBy('id', 'DESC')->first();
         $customers = Customer::all();
+        $shippingCharges = ShippingCharge::all();
 
         if($invoice_data == null){
             $firstReg = '0';
@@ -50,7 +52,7 @@ class InvoiceController extends Controller
             $invoice_no = $invoice_data + 1;
         }
 
-        return view('backend.invoice.invoice_add', compact('category', 'invoice_no', 'customers'));
+        return view('backend.invoice.invoice_add', compact('category', 'invoice_no', 'customers', 'shippingCharges'));
     }
 
     /**
@@ -89,14 +91,14 @@ class InvoiceController extends Controller
             ->duration(2000)
             ->error("Customer info can't be empty!");
             return redirect()->back();
-       }else if($request->description == null){
+       }else if($request->address == null){
             notyf()
             ->position('x', 'right')
             ->position('y', 'top')
             ->duration(2000)
             ->error("Address can't be empty");
             return redirect()->back();
-       }else{
+      }else{
             if($request->paid_amount > $request->estimated_amount){
                 notyf()
                     ->position('x', 'right')
@@ -109,7 +111,7 @@ class InvoiceController extends Controller
                 $invoice = new  Invoice();
                 $invoice->invoice_no = $request->invoice_no;
                 $invoice->date = date('Y-m-d', strtotime($request->invoice_date));
-                $invoice->description = $request->description;
+                $invoice->description = $request->note;
                 $invoice->created_by = Auth::user()->id;
                 $invoice->created_at = now();
 
@@ -155,6 +157,7 @@ class InvoiceController extends Controller
                                     $customer->customer_name = $request->customerN;
                                     $customer->c_phone = $request->c_phone;
                                     $customer->c_gender = $request->c_gender;
+                                    $customer->address = $request->address;
                                     $customer->save();
                                     $customer_id = $customer->id; // Get Customer id which is entry last time
                                 } else{
@@ -172,18 +175,20 @@ class InvoiceController extends Controller
                                 $payment->total_amount = $request->estimated_amount;
 
                                 if($request->paid_status == "full_paid"){
-                                    $payment->paid_amount = $request->estimated_amount;
+                                    $payment->paid_amount = $request->estimated_amount + $request->shipping_charge;
                                     $payment->due_amount = '0';
-                                    $payment_details->current_paid_amount = $request->estimated_amount;
+                                    $payment_details->current_paid_amount = $request->estimated_amount + $request->shipping_charge;
                                 }elseif($request->paid_status == "full_due"){
                                     $payment->paid_amount = '0';
-                                    $payment->due_amount = $request->estimated_amount;
+                                    $payment->due_amount = $request->estimated_amount + $request->shipping_charge;
                                     $payment_details->current_paid_amount = '0';
                                 }elseif($request->paid_status == "partial_paid"){
                                     $payment->paid_amount = $request->paid_amount;
-                                    $payment->due_amount = $request->estimated_amount - $request->paid_amount;
+                                    $payment->due_amount = $request->estimated_amount + $request->shipping_charge - $request->paid_amount;
                                     $payment_details->current_paid_amount = $request->paid_amount;;
                                 }
+
+                                $payment->shipping_charge = $request->shipping_charge;
                                 $payment->save();
 
                                 $payment_details->invoice_id = $invoice->id;
@@ -422,10 +427,11 @@ class InvoiceController extends Controller
                 if ($courier != 5) {
                     $consignmentData = [
                         'invoice' => $order->invoice_no,
-                        'recipient_name' => $payment->customer ? $payment->customer->customer_name : 'InboxHat',
+                        'recipient_name' => $payment->customer ? $payment->customer->customer_name : 'N/A',
                         'recipient_phone' => $payment->customer ? $payment->customer->c_phone : '01680366446',
-                        'recipient_address' => $order->description ? $order->description : '01680366446',
-                        'cod_amount' => $payment->total_amount
+                        'recipient_address' => $payment->customer ? $payment->customer->address : 'N/A',
+                        'cod_amount' => $payment->total_amount,
+                        'note' => $order->description ? $order->description : 'N/A',
                     ];
 
                     $client = new Client();
@@ -439,23 +445,14 @@ class InvoiceController extends Controller
                     ]);
 
                     $responseData = json_decode($response->getBody(), true);
-                    if($responseData['status'] == 200){
-                        notyf()
-                        ->position('x', 'right')
-                        ->position('y', 'top')
-                        ->duration(2000)
-                        ->success('Your order place to courier successfully!');
+                    if ($responseData['status'] == 200) {
+                        $message = 'Your order place to courier successfully';
+                        $status = 'success';
+                    } else {
+                        $message = 'Your order place to courier failed';
+                        $status = 'failed';
                     }
-                    // if ($responseData['status'] == 200) {
-                    //     $message = 'Your order place to courier successfully';
-                    //     $status = 'success';
-                    //     $order->status = 1;
-                    //     $order->save();
-                    // } else {
-                    //     $message = 'Your order place to courier failed';
-                    //     $status = 'failed';
-                    // }
-                    return redirect()->back();
+                    return response()->json(['status' => $status, 'message' => $message]);
                 }
                 
             }
