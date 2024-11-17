@@ -37,10 +37,21 @@
                         @csrf
 
                         {{-- Product Name --}}
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-8">
                             <label for="productN" class="form-label">Product Name</label>
                             <input type="text" class="form-control" name="productN" id="productN"
                                 placeholder="Product Name">
+                        </div>
+
+                        {{-- Product SKU --}}
+                        <div class="form-group col-md-4">
+                            <label for="p_sku" class="form-label">Product SKU</label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                name="p_sku" 
+                                id="p_sku" 
+                            >
                         </div>
 
                         {{-- Supplier Name --}}
@@ -123,8 +134,9 @@
 </div>
 
 <script type="text/javascript">
-    // IMAGE UPLOAD AND SHOW
+    
     $(document).ready(function(){
+        // IMAGE UPLOAD AND SHOW
         $("#p_image").change(function(e){
             var reader = new FileReader();
             reader.onload = function(e){
@@ -132,6 +144,15 @@
             }
             reader.readAsDataURL(e.target.files['0']);
         });
+
+        // PRODUCT SKU GENERATE
+        function generateSku(){
+            let prefix = "HS";
+            var randomSuffix = Math.floor(Math.random() * 900000) + 100000;
+            var productSKU = prefix + '-' + randomSuffix;
+            $("#p_sku").val(productSKU);
+        }
+        generateSku();
     });
 </script>
 @endsection

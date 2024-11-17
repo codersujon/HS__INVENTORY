@@ -35,7 +35,8 @@
                         <tr>
                             <th width="5%">#SN</th>
                             <th>Product Name</th>
-                            <th width="8%">Product Image</th>
+                            <th width="4%" class="text-center">Product SKU</th>
+                            <th width="6%">Product Image</th>
                             <th width="6%">Shelf Name</th>
                             <th width="8%">Supplier Name</th>
                             <th width="6%">Category</th>
@@ -51,6 +52,7 @@
                             <tr>
                                 <td>{{ $key+1; }}</td>
                                 <td style="word-wrap: break-word; min-width:150px; max-width:200px; white-space:normal;">{{ $item->product_name }}</td>
+                                <td style="word-wrap: break-word; min-width:150px; max-width:200px; white-space:normal; text-align:center;">{{ $item->product_sku }}</td>
                                 <td class="text-center">
                                     <img src="{{ (!empty($item->product_image))? url('upload/product/'.$item->product_image): url('upload/No_Image.jpg') }}" alt="" width="100px" height="50px" class="rounded">
                                 </td>
@@ -83,7 +85,8 @@
                         <tr>
                             <th width="5%">#SN</th>
                             <th>Product Name</th>
-                            <th width="8%">Product Image</th>
+                            <th width="4%" class="text-center">Product SKU</th>
+                            <th width="6%">Product Image</th>
                             <th width="6%">Shelf Name</th>
                             <th width="8%">Supplier Name</th>
                             <th width="6%">Category</th>

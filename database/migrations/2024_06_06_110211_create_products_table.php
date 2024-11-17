@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('unit_id');
             $table->integer('category_id');
             $table->string('product_name');
+            $table->string('product_sku');
             $table->string('product_desc')->nullable();
             $table->string('product_image')->nullable();
             $table->double('quantity')->default('0');
