@@ -50,7 +50,7 @@
                                 type="text" 
                                 class="form-control" 
                                 name="p_sku" 
-                                id="p_sku" 
+                                id="p_sku" disabled
                             >
                         </div>
 
