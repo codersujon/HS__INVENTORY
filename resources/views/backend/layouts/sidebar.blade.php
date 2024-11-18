@@ -191,7 +191,7 @@
                     <a href="{{ route('daily.purchase.report') }}"><i class="bx bx-right-arrow-alt"></i>Daily Purchase Report</a>
                 </li>
                 <li>
-                    <a href="{{ route('daily.invoice.report') }}"><i class="bx bx-right-arrow-alt"></i>Daily Invoice Report</a>
+                    <a href="{{ route('daily.invoice.report') }}"><i class="bx bx-right-arrow-alt"></i>Daily Sales Report</a>
                 </li>
             </ul>
         </li>
