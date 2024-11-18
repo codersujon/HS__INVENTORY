@@ -126,6 +126,7 @@ class ProductController extends Controller
 
         $result = Product::findOrFail($id)->update([
             'product_name'=> ucwords($request->productN),
+            'product_sku'=> $request->p_sku,
             'supplier_id'=> $request->supplier_id,
             'shelf_id'=> $request->shelf_id,
             'unit_id'=> $request->unit_id,

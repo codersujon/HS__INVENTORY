@@ -37,10 +37,22 @@
                         @csrf
 
                         {{-- Product Name --}}
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-8">
                             <label for="productN" class="form-label">Product Name</label>
                             <input type="text" class="form-control" name="productN" id="productN"
                                 placeholder="Product Name" value="{{ $product->product_name }}">
+                        </div>
+
+                        {{-- Product SKU --}}
+                        <div class="form-group col-md-4">
+                            <label for="p_sku" class="form-label">Product SKU</label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                name="p_sku" 
+                                id="p_sku" 
+                                value="{{ $product->product_sku }}"
+                            >
                         </div>
 
                         {{-- Supplier Name --}}
