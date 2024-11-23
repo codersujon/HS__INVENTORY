@@ -20,6 +20,7 @@ return new class extends Migration
             $table->double('due_amount')->nullable();
             $table->double('total_amount')->nullable();
             $table->double('discount_amount')->nullable();
+            $table->double('shipping_charge')->nullable();
             $table->timestamps();
         });
     }

@@ -430,7 +430,7 @@ class InvoiceController extends Controller
                         'recipient_name' => $payment->customer ? $payment->customer->customer_name : 'N/A',
                         'recipient_phone' => $payment->customer ? $payment->customer->c_phone : '01680366446',
                         'recipient_address' => $payment->customer ? $payment->customer->address : 'N/A',
-                        'cod_amount' => $payment->total_amount,
+                        'cod_amount' => $payment->due_amount,
                         'note' => $order->description ? $order->description : 'N/A',
                     ];
 
