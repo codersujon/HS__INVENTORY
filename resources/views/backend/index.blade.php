@@ -4,6 +4,103 @@
 
 <div class="page-content">
 
+    <!-- TOTAL PURCHASE AND SALES -->
+    @php
+        $total_purchase = App\Models\Purchase::where('status', '1')->sum('buying_price');
+        $total_sales =  App\Models\Payment::sum('total_amount');
+
+        $today = now()->format('Y-m-d');
+        $today_purchase = App\Models\Purchase::where('purchase_date', $today)->where('status', '1')->sum('buying_price');
+        $today_sales =  App\Models\Payment::whereDate('created_at', $today)->sum('total_amount');
+    @endphp
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-4">
+        <div class="col">
+            <div class="card radius-10 bg-gradient-orange">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <h5 class="mb-0 text-white">&#2547; {{ number_format($total_purchase, 2) }}</h5>
+                        <div class="ms-auto">
+                            <i class="lni lni-cart-full fs-3 text-white"></i>
+                        </div>
+                    </div>
+                    <div class="progress my-3 bg-light-transparent" style="height:3px;">
+                        <div class="progress-bar bg-white" role="progressbar" style="width: 55%"
+                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="d-flex align-items-center text-white">
+                        <p class="mb-0">Total Purchase</p>
+                        {{-- <small class="text-end">1.4% <i class="zmdi zmdi-long-arrow-up"></i> Since Last Month</small> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card radius-10 bg-gradient-lush">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <h5 class="mb-0 text-white">&#2547; {{ number_format($total_sales, 2) }}</h5>
+                        <div class="ms-auto">
+                            <i class="lni lni-shopping-basket fs-3 text-white"></i>
+                        </div>
+                    </div>
+                    <div class="progress my-3 bg-light-transparent" style="height:3px;">
+                        <div class="progress-bar bg-white" role="progressbar" style="width: 55%"
+                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="d-flex align-items-center text-white">
+                        <p class="mb-0">Total Sales</p>
+                        {{-- <small class="text-end">5.43% <i class="zmdi zmdi-long-arrow-up"></i> Since Last Month</small> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card radius-10 bg-gradient-deepblue">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <h5 class="mb-0 text-white">&#2547; {{ number_format($today_purchase, 2) }}</h5>
+                        <div class="ms-auto">
+                            <i class="lni lni-cart-full fs-3 text-white"></i>
+                        </div>
+                    </div>
+                    <div class="progress my-3 bg-light-transparent" style="height:3px;">
+                        <div class="progress-bar bg-white" role="progressbar" style="width: 55%"
+                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="d-flex align-items-center text-white">
+                        <p class="mb-0">Today's Purchase</p>
+                        {{-- <small class="text-end">1.4% <i class="zmdi zmdi-long-arrow-up"></i> Since Last Month</small> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card radius-10 bg-gradient-ibiza">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <h5 class="mb-0 text-white">&#2547; {{ number_format($today_sales, 2) }}</h5>
+                        <div class="ms-auto">
+                            <i class="lni lni-shopping-basket fs-3 text-white"></i>
+                        </div>
+                    </div>
+                    <div class="progress my-3 bg-light-transparent" style="height:3px;">
+                        <div class="progress-bar bg-white" role="progressbar" style="width: 55%"
+                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="d-flex align-items-center text-white">
+                        <p class="mb-0">Today's Sales</p>
+                        {{-- <small class="text-end">5.43% <i class="zmdi zmdi-long-arrow-up"></i> Since Last Month</small> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-2">
+        
+    </div>
+
     <div class="row row-cols-1 row-cols-sm-3">
         <div class="col">
             <div class="card radius-10 bg-gradient-deepblue">
@@ -197,116 +294,67 @@
     </div>
     <!--end row-->
 
-    @php
-        $today = now()->format('Y-m-d');
-        $total_purchase = App\Models\Purchase::where('purchase_date', $today)->where('status', '1')->sum('buying_price');
-        $total_sales =  App\Models\Payment::whereDate('created_at', $today)->sum('total_amount');
-    @endphp
-
-<div class="row row-cols-1 row-cols-sm-2 row-cols-xl-2">
-    <div class="col">
-        <div class="card radius-10 bg-gradient-orange">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <h5 class="mb-0 text-white">&#2547; {{ number_format($total_purchase, 2) }}</h5>
-                    <div class="ms-auto">
-                        <i class="lni lni-cart-full fs-3 text-white"></i>
+    <div class="row">
+        <div class="col-12 d-flex">
+            <div class="card radius-10 w-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h5>Today's Orders Summary</h5>
+                        </div>
                     </div>
-                </div>
-                <div class="progress my-3 bg-light-transparent" style="height:3px;">
-                    <div class="progress-bar bg-white" role="progressbar" style="width: 55%"
-                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <div class="d-flex align-items-center text-white">
-                    <p class="mb-0">Today's Total Purchase</p>
-                    {{-- <small class="text-end">1.4% <i class="zmdi zmdi-long-arrow-up"></i> Since Last Month</small> --}}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card radius-10 bg-gradient-lush">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <h5 class="mb-0 text-white">&#2547; {{ number_format($total_sales, 2) }}</h5>
-                    <div class="ms-auto">
-                        <i class="lni lni-shopping-basket fs-3 text-white"></i>
-                    </div>
-                </div>
-                <div class="progress my-3 bg-light-transparent" style="height:3px;">
-                    <div class="progress-bar bg-white" role="progressbar" style="width: 55%"
-                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <div class="d-flex align-items-center text-white">
-                    <p class="mb-0">Today's Total Sales</p>
-                    {{-- <small class="text-end">5.43% <i class="zmdi zmdi-long-arrow-up"></i> Since Last Month</small> --}}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-12 d-flex">
-        <div class="card radius-10 w-100">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div>
-                        <h5>Today's Orders Summary</h5>
-                    </div>
-                </div>
-                <div class="table-responsive mt-1">
-                    <table class="table align-middle mb-0 table-hover" id="Transaction-History">
-                        <thead class="table-light">
-                            <tr>
-                                <th width="12%">Order id</th>
-                                <th width="13%">Order Date</th>
-                                <th class="text-center">Customer Name</th>
-                                <th width="15%">Mobile No</th>
-                                <th width="10%">Total Price</th>
-                                <th width="10%">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                            @foreach ($allData as $key => $item)
+                    <div class="table-responsive mt-1">
+                        <table class="table align-middle mb-0 table-hover" id="Transaction-History">
+                            <thead class="table-light">
                                 <tr>
-                                    <td>#{{ $item->invoice_no }}</td>
-                                    <td>{{ date('d-m-Y', strtotime($item->date)) }}</td>
-                                    <td class="text-center">{{ ucwords($item['payment']['customer']['customer_name']) }}</td>
-                                    <td>{{ ucwords($item['payment']['customer']['c_phone']) }}</td>
-                                    <td class="text-end">{{  number_format($item['payment']['total_amount'], 2) }}</td>
-                                    <td>
-                                    @if($item->status == "0")
-                                    <div class="d-flex align-items-center text-primary rounded-pill px-3">	<i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
-                                        <span>Processing</span>
-                                    </div>
-                                    @elseif($item->status == "1")
-                                        <div class="d-flex align-items-center text-info rounded-pill px-3">	<i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
-                                            <span>On Delivery</span>
-                                        </div>
-                                    @elseif($item->status == "2")
-                                        <div class="d-flex align-items-center text-success rounded-pill px-3">	<i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
-                                            <span>Delivered</span>
-                                        </div>
-                                    @elseif($item->status == "3")
-                                        <div class="d-flex align-items-center text-danger rounded-pill px-3">	<i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
-                                            <span>Returned</span>
-                                        </div>
-                                    @endif
-                                    </td>
+                                    <th width="12%">Order id</th>
+                                    <th width="13%">Order Date</th>
+                                    <th class="text-center">Customer Name</th>
+                                    <th width="15%">Mobile No</th>
+                                    <th width="10%">Total Price</th>
+                                    <th width="10%">Status</th>
                                 </tr>
-                            @endforeach
+                            </thead>
+                            <tbody>
+                                
+                                @foreach ($allData as $key => $item)
+                                    <tr>
+                                        <td>#{{ $item->invoice_no }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($item->date)) }}</td>
+                                        <td class="text-center">{{ ucwords($item['payment']['customer']['customer_name']) }}</td>
+                                        <td>{{ ucwords($item['payment']['customer']['c_phone']) }}</td>
+                                        <td class="text-end">{{  number_format($item['payment']['total_amount'], 2) }}</td>
+                                        <td>
+                                        @if($item->status == "0")
+                                        <div class="d-flex align-items-center text-primary rounded-pill px-3">	<i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
+                                            <span>Processing</span>
+                                        </div>
+                                        @elseif($item->status == "1")
+                                            <div class="d-flex align-items-center text-info rounded-pill px-3">	<i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
+                                                <span>On Delivery</span>
+                                            </div>
+                                        @elseif($item->status == "2")
+                                            <div class="d-flex align-items-center text-success rounded-pill px-3">	<i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
+                                                <span>Delivered</span>
+                                            </div>
+                                        @elseif($item->status == "3")
+                                            <div class="d-flex align-items-center text-danger rounded-pill px-3">	<i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
+                                                <span>Returned</span>
+                                            </div>
+                                        @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
 
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!--End Row-->
+    <!--End Row-->
 
 </div>
 
