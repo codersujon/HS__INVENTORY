@@ -64,6 +64,20 @@ class InvoiceController extends Controller
         return response()->json($stock);
     }
 
+     /**
+     * GET CUSTOMER  ADDRESS
+     */
+    public function getCustomerAddress(Request $request){
+        $customer_id = $request->customer_id;
+        $customer = Customer::where('id', $customer_id)->first();
+        
+        if ($customer) {
+            return response()->json(['address' => $customer->address]);
+        } else {
+            return response()->json(['message' => 'Customer not found'], 404);
+        }
+    }
+
     /**
      * INVOICE STORE
      */

@@ -52,23 +52,23 @@
                                     <thead>
                                         <tr class="text-center bg-dark">
                                             <th width="5%">#</th>
-                                            <th width="7%">PURCHASE NO</th>
-                                            <th width="6%">DATE</th>
+                                            <th>PURCHASE NO</th>
+                                            <th>DATE</th>
                                             <th class="text-left">PRODUCT NAME</th>
                                             <th class="text-left">SUPPLIER NAME</th>
-                                            <th width="5%">QTY</th>
+                                            <th>QTY</th>
                                             <th class="text-center">PURCHASE PRICE</th>
                                             <th class="text-center">TOTAL PRICE</th>
-                                            <th class="text-center" width="10%">CREATED AT</th>
+                                            <!-- <th class="text-center">CREATED AT</th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                         @php
-                                        $total_sum = '0';
+                                            $total_sum = '0';
                                         @endphp
 
-                                        @foreach ( $allData as $key => $item )
+                                        @foreach ($allData as $key => $item )
                                             <tr class="text-center">
                                                 <td class="no">{{ $key+1 }}</td>
                                                 <td class="text-center" style="word-wrap: break-word; min-width:120px; max-width:200px; white-space:normal;"><h3>#{{ $item->purchase_no }}</h3></td>
@@ -77,8 +77,8 @@
                                                 <td class="text-center"><h3>{{ ucwords($item['supplier']['supplier_name']) }}</h3></td>
                                                 <td class="text-center">{{ $item->buying_qty }}</td>
                                                 <td class="text-center">{{ number_format($item->unit_price, 2) }}</td>
-                                                <td class="text-center">{{ number_format($item->buying_price, 2) }}</td>
-                                                <td class="text-center">{{ $item->created_at }}</td>
+                                                <td class="text-end">{{ number_format($item->buying_price, 2) }}</td>
+                                                <!-- <td class="text-center">{{ $item->created_at }}</td> -->
                                             </tr>
                                             @php
                                                 $total_sum += $item->buying_price;

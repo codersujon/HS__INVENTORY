@@ -388,6 +388,22 @@
             }
         });
 
+        // GET CUSTOMER ADDRESS
+        $(document).on("change", "#customer_id", function(){
+            var customer_id = $(this).val();
+            $.ajax({
+                url: "{{ route('get-customer-address') }}",
+                type: "GET",
+                data:{
+                    customer_id: customer_id
+                },
+                dataType: "JSON",
+                success: function(data){
+                    $("#address").val(data.address);
+                }
+           });
+
+        });
 
     });
 </script>

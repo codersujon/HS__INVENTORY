@@ -78,6 +78,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/invoice/all', 'index')->name('invoice.all');
         Route::get('/invoice/add', 'create')->name('invoice.add');
         Route::get('/get-product-stock', 'getProductStock')->name('get-product-stock');
+        Route::get('/get-customer-address', 'getCustomerAddress')->name('get-customer-address');
         Route::post('/invoice/store', 'store')->name('invoice.store');
         Route::get('/invoice/details/{id}', 'invoiceDetails')->name('invoice.details');
         Route::get('/invoice/pending', 'invoicePending')->name('invoice.pending');
