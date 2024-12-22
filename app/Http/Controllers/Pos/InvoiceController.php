@@ -346,7 +346,7 @@ class InvoiceController extends Controller
 
         if($result){
             sweetalert()->timer(800)->success('Invoice On Delivery Successfully!');
-            return redirect()->route('invoice.all');
+            return redirect()->route('invoice.pending');
         }
 
     }
