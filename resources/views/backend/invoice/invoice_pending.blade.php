@@ -41,14 +41,16 @@
                             <th>
                                 <input type="checkbox" name="" id="select_all_ids">
                             </th>
-                            <th width="5%">#SN</th>
-                            <th width="7%">Date</th>
-                            <th width="7%">Invoice No</th>
-                            <th width="25%">Customer Name</th>
-                            <th width="8%">Amount</th>
-                            <th width="25%">Description</th>
-                            <th width="5%">Status</th>
-                            <th width="10%">Action</th>
+                            <th width="5%" class="text-center">#SN</th>
+                            <th width="7%" class="text-center">Date</th>
+                            <th width="7%" class="text-center">Invoice No</th>
+                            <th width="25%" class="text-center">Customer Name</th>
+                            <th width="10%" class="text-center">Contact Number</th>
+                            <th width="8%" class="text-center">Amount</th>
+                            <!-- <th width="25%" class="text-center">Address</th> -->
+                            <th width="25%" class="text-center">Description</th>
+                            <th width="5%" class="text-center">Status</th>
+                            <th width="10%" class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,7 +64,9 @@
                                 <td class="text-center">{{ date('d-m-Y', strtotime($item->date)) }}</td>
                                 <td class="text-center">#{{ $item->invoice_no }}</td>
                                 <td>{{ $item['payment']['customer']['customer_name'] }}</td>
+                                <td>{{ $item['payment']['customer']['c_phone'] }}</td>
                                 <td class="text-center">{{  number_format($item['payment']['due_amount'], 2) }}</td>
+                                <!-- <td style="word-wrap: break-word; min-width:200px; max-width:200px; white-space:normal;">{{ $item['payment']['customer']['address'] }}</td> -->
                                 <td style="word-wrap: break-word; min-width:200px; max-width:200px; white-space:normal;">{{ $item->description }}</td>
                                 <td class="text-center">
                                     @if ($item->status == "0")
@@ -89,14 +93,16 @@
                     <tfoot>
                         <tr>
                             <th></th>
-                            <th>#SN</th>
-                            <th>Date</th>
-                            <th>Invoice No</th>
-                            <th>Customer Name</th>
-                            <th>Amount</th>
-                            <th>Description</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th width="5%" class="text-center">#SN</th>
+                            <th width="7%" class="text-center">Date</th>
+                            <th width="7%" class="text-center">Invoice No</th>
+                            <th width="25%" class="text-center">Customer Name</th>
+                            <th width="10%" class="text-center">Contact Number</th>
+                            <th width="8%" class="text-center">Amount</th>
+                            <!-- <th width="25%" class="text-center">Address</th> -->
+                            <th width="25%" class="text-center">Description</th>
+                            <th width="5%" class="text-center">Status</th>
+                            <th width="10%" class="text-center">Action</th>
                         </tr>
                     </tfoot>
                 </table>

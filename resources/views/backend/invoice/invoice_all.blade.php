@@ -33,14 +33,15 @@
                 <table id="example2" class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th width="5%">#SN</th>
-                            <th width="8%">Date</th>
-                            <th width="10%">Invoice No</th>
-                            <th width="20%">Customer Name</th>
-                            <th width="8%">Amount</th>
-                            <th>Address</th>
-                            <th width="5%">Status</th>
-                            <th width="10%">Action</th>
+                            <th width="5%" class="text-center">#SN</th>
+                            <th width="8%" class="text-center">Date</th>
+                            <th width="10%" class="text-center">Invoice No</th>
+                            <th width="20%" class="text-center">Customer Name</th>
+                            <th width="10%" class="text-center">Contact Number</th>
+                            <th width="8%" class="text-center">Amount</th>
+                            <th class="text-center">Address</th>
+                            <th width="5%" class="text-center">Status</th>
+                            <th width="10%" class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,6 +52,7 @@
                                 <td class="text-center">{{ date('d-m-Y', strtotime($item->date)) }}</td>
                                 <td class="text-center">#{{ $item->invoice_no }}</td>
                                 <td>{{ $item['payment']['customer']['customer_name'] }}</td>
+                                <td class="text-center">{{ $item['payment']['customer']['c_phone'] }}</td>
                                 <td class="text-center">{{  number_format($item['payment']['due_amount'], 2) }}</td>
                                 <td style="word-wrap: break-word; min-width:200px; max-width:200px; white-space:normal;">{{ $item['payment']['customer']['address'] }}</td>
                                 <td>
@@ -102,14 +104,15 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th width="5%">#SN</th>
-                            <th width="8%">Date</th>
-                            <th width="10%">Invoice No</th>
-                            <th width="20%">Customer Name</th>
-                            <th width="8%">Amount</th>
-                            <th>Address</th>
-                            <th width="5%">Status</th>
-                            <th width="10%">Action</th>
+                            <th width="5%" class="text-center">#SN</th>
+                            <th width="8%" class="text-center">Date</th>
+                            <th width="10%" class="text-center">Invoice No</th>
+                            <th width="20%" class="text-center">Customer Name</th>
+                            <th width="10%" class="text-center">Contact Number</th>
+                            <th width="8%" class="text-center">Amount</th>
+                            <th class="text-center">Address</th>
+                            <th width="5%" class="text-center">Status</th>
+                            <th width="10%" class="text-center">Action</th>
                         </tr>
                     </tfoot>
                 </table>

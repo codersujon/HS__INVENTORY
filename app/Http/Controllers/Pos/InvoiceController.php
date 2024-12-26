@@ -277,8 +277,8 @@ class InvoiceController extends Controller
         $result = $invoice->update();
 
         if($result){
-            sweetalert()->success('Invoice Delivered Successfully!');
-            return redirect()->route('invoice.all');
+            sweetalert()->timer(600)->success('Invoice Delivered Successfully!');
+            return redirect()->route('invoice.on.delivery');
         }
      }
 
@@ -345,7 +345,7 @@ class InvoiceController extends Controller
         $result = $invoice->update();
 
         if($result){
-            sweetalert()->timer(800)->success('Invoice On Delivery Successfully!');
+            sweetalert()->timer(600)->success('Invoice On Delivery Successfully!');
             return redirect()->route('invoice.pending');
         }
 
@@ -381,8 +381,8 @@ class InvoiceController extends Controller
         $result = $invoice->update();
 
         if($result){
-            sweetalert()->timer(1000)->success('Sales Return Successfully!');
-            return redirect()->route('invoice.all');
+            sweetalert()->timer(600)->success('Sales Return Successfully!');
+            return redirect()->route('invoice.on.delivery');
         }
     }
 

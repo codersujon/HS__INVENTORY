@@ -47,8 +47,10 @@
                                 <td scope="col"><strong>Gender:</strong> {{ $payment['customer']['c_gender'] }}</td>
                             </tr>
                             <tr>
+                                <td><strong>Address:</strong></td>
+                                <td>{{ $payment['customer']['address'] }}</td>
                                 <td><strong>Description:</strong></td>
-                                <td colspan="3">{{ $invoice->description }}</td>
+                                <td>{{ $invoice->description }}</td>
                             </tr>
                         </thead>
                     </table>
