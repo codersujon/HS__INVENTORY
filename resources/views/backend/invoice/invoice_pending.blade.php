@@ -77,6 +77,8 @@
                                 </td>
                                 <td>
                                     @if($item->status == "0")
+                                        <a href="{{ route('invoice.edit', $item->id) }}" class="btn btn-sm btn-primary"><i class="lni lni-pencil"></i>Edit</a>
+
                                         <button class="btn btn-sm btn-success approveProcessing" data-url="{{ route('invoice.approve', $item->id) }}">
                                             <i class="lni lni-checkmark-circle"></i> Approve
                                         </button>

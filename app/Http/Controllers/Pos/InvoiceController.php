@@ -226,6 +226,175 @@ class InvoiceController extends Controller
         return Redirect()->route('invoice.pending');
     }
 
+
+    /**
+     * INVOICE EDIT
+     */
+    public function edit(string $id){
+        $invoice = Invoice::with('invoice_details')->findOrFail($id);
+        $payment = Payment::where('invoice_id', $id)->first();
+        $category = Category::all();
+        $customers = Customer::where('id', $payment->customer_id)->get();
+        // dd($customers);
+
+        $shippingCharges = ShippingCharge::all();
+        return view('backend.invoice.invoice_edit', compact('invoice', 'payment', 'category', 'customers', 'shippingCharges'));
+    }
+
+
+    /**
+     * INVOICE UPDATE
+     */
+    public function update(Request $request){
+        
+        $id = $request->invid;
+        $invoice = Invoice::with('invoice_details')->findOrFail($id);
+        dd($invoice->all());
+
+
+        // Validation Message
+       if($request->category_id == null){
+            notyf()
+                ->position('x', 'right')
+                ->position('y', 'top')
+                ->duration(2000)
+                ->error("Sorry! You don't select any item");
+            return redirect()->back();
+        }else if($request->paid_status == null){
+                notyf()
+                ->position('x', 'right')
+                ->position('y', 'top')
+                ->duration(2000)
+                ->error("Paid status not found");
+                return redirect()->back();
+        }else if($request->customer_id == null){
+                notyf()
+                ->position('x', 'right')
+                ->position('y', 'top')
+                ->duration(2000)
+                ->error("Customer info can't be empty!");
+                return redirect()->back();
+        }else if($request->address == null){
+                notyf()
+                ->position('x', 'right')
+                ->position('y', 'top')
+                ->duration(2000)
+                ->error("Address can't be empty");
+                return redirect()->back();
+            }else{
+                if($request->paid_amount > $request->estimated_amount){
+                    notyf()
+                        ->position('x', 'right')
+                        ->position('y', 'top')
+                        ->duration(2000)
+                        ->error("Sorry! Paid amount is maximum the total price.");
+                    return redirect()->back();
+                }else{
+
+                    $invoice = new  Invoice();
+                    $invoice->invoice_no = $request->invoice_no;
+                    $invoice->date = date('Y-m-d', strtotime($request->invoice_date));
+                    $invoice->description = $request->note;
+                    $invoice->created_by = Auth::user()->id;
+                    $invoice->created_at = now();
+
+                    // Loop is using for check every unit price and qty field is empty or not
+                    $count_product = count($request->product_id);
+                    for($f = 0; $f < $count_product; $f++ ){
+                        // Validation Message Notification
+                        if($request->selling_qty[$f] == null){
+                            notyf()
+                                ->position('x', 'right')
+                                ->position('y', 'top')
+                                ->duration(2000)
+                                ->error("Product Selling quantity required!");
+                                return redirect()->back();
+                        }else if($request->unit_price[$f] == null){
+                            notyf()
+                            ->position('x', 'right')
+                            ->position('y', 'top')
+                            ->duration(2000)
+                            ->error("Selling price required!");
+                            return redirect()->back();
+                        }else{
+
+                            DB::transaction(function() use ($request, $invoice){
+                                if($invoice->save()){
+
+                                    $count_category = count($request->category_id);
+                                    for($i = 0; $i < $count_category; $i++ ){
+                                        
+                                        $invoice_details =  new InvoiceDetail();
+                                        $invoice_details->date = date('Y-m-d', strtotime($request->invoice_date));
+                                        $invoice_details->invoice_id = $invoice->id;
+                                        $invoice_details->category_id = $request->category_id[$i];
+                                        $invoice_details->product_id = $request->product_id[$i];
+                                        $invoice_details->selling_qty = $request->selling_qty[$i];
+                                        $invoice_details->unit_price = $request->unit_price[$i];
+                                        $invoice_details->selling_price = $request->selling_price[$i];
+                                        $invoice_details->save();
+                                    }
+
+                                    if($request->customer_id == '0'){
+                                        $customer = new Customer();
+                                        $customer->customer_name = $request->customerN;
+                                        $customer->c_phone = $request->c_phone;
+                                        $customer->c_gender = $request->c_gender;
+                                        $customer->address = $request->address;
+                                        $customer->save();
+                                        $customer_id = $customer->id; // Get Customer id which is entry last time
+                                    } else{
+                                        $customer_id = $request->customer_id;
+                                    }
+
+                                    $payment = new Payment();
+                                    $payment_details = new PaymentDetail();
+
+                                    $payment->invoice_id = $invoice->id;
+                                    $payment->customer_id = $customer_id;
+                                    $payment->paid_status = $request->paid_status;
+                                    $payment->paid_amount = $request->paid_amount;
+                                    $payment->discount_amount = $request->discount_amount;
+                                    $payment->total_amount = $request->estimated_amount;
+
+                                    if($request->paid_status == "full_paid"){
+                                        $payment->paid_amount = $request->estimated_amount + $request->shipping_charge;
+                                        $payment->due_amount = '0';
+                                        $payment_details->current_paid_amount = $request->estimated_amount + $request->shipping_charge;
+                                    }elseif($request->paid_status == "full_due"){
+                                        $payment->paid_amount = '0';
+                                        $payment->due_amount = $request->estimated_amount + $request->shipping_charge;
+                                        $payment_details->current_paid_amount = '0';
+                                    }elseif($request->paid_status == "partial_paid"){
+                                        $payment->paid_amount = $request->paid_amount;
+                                        $payment->due_amount = $request->estimated_amount + $request->shipping_charge - $request->paid_amount;
+                                        $payment_details->current_paid_amount = $request->paid_amount;;
+                                    }
+
+                                    $payment->shipping_charge = $request->shipping_charge;
+                                    $payment->save();
+
+                                    $payment_details->invoice_id = $invoice->id;
+                                    $payment_details->date = date('Y-m-d', strtotime($request->invoice_date));
+                                    $payment_details->save();
+
+                                }
+                            });
+                        }
+                    }
+
+                }
+
+        } // END ELSE
+
+        notyf()
+            ->position('x', 'right')
+            ->position('y', 'top')
+            ->duration(1000)
+            ->success('Sales Invoice Updated!');
+        return Redirect()->route('invoice.pending');
+    }
+
     /**
      * INVOICE PROCESSING
      */

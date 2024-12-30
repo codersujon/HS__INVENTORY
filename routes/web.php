@@ -91,6 +91,10 @@ Route::middleware('auth')->group(function(){
         Route::post('/invoice/approval/{id}', 'invoiceApprovalStore')->name('invoice.approval.store');
         Route::get('/daily/invoice/report', 'dailyInvoiceReport')->name('daily.invoice.report');
         Route::get('/daily/invoice/pdf', 'dailyInvoicePdf')->name('daily.invoice.pdf');
+
+        Route::get('/invoice/edit/{id}', 'edit')->name('invoice.edit');
+        Route::post('/invoice/update', 'update')->name('invoice.update');
+
         // Invoice Return
         Route::get('/invoice/return/{id}', 'invoiceReturn')->name('invoice.return');
         Route::post('/invoice/return/store/{id}', 'invoiceReturnStore')->name('invoice.return.store');
