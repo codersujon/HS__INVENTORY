@@ -64,6 +64,7 @@ Route::middleware('auth')->group(function(){
     Route::controller(StockController::class)->group(function(){
         Route::get('/stock/report', 'StockReport')->name('stock.report');
         Route::get('/stock/report/print', 'StockReportPrint')->name('stock.report.print');
+        
         Route::get('/stock/supplier/wise', 'StockSupplierWise')->name('stock.supplier.wise');
         Route::post('/supplier/wise/pdf', 'SupplierWisePdf')->name('supplier.wise.pdf');
         Route::post('/product/wise/pdf', 'ProductWisePdf')->name('product.wise.pdf');

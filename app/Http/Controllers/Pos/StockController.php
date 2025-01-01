@@ -8,6 +8,8 @@ use App\Models\Supplier;
 use App\Models\Unit;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Purchase;
+use PDF;
 
 class StockController extends Controller
 {
@@ -16,7 +18,8 @@ class StockController extends Controller
      */
     public function StockReport()
     {
-       $allData = Product::orderBy('supplier_id', 'ASC')->orderBy('category_id', 'ASC')->get();
+       $allData = Purchase::select('product_id', 'unit_price')->distinct()
+                    ->with('product')->get();
        return view('backend.stock.stock_report', compact('allData'));
     }
 
@@ -25,8 +28,11 @@ class StockController extends Controller
      */
     public function StockReportPrint()
     {
-        $allData = Product::orderBy('supplier_id', 'ASC')->orderBy('category_id', 'ASC')->get();
-        return view('backend.stock.stock_report_pdf', compact('allData'));
+        $allData = Purchase::select('product_id', 'unit_price')->distinct()
+                    ->with(['product:id,product_name,product_sku,quantity'])->get();
+                    
+        $pdf = PDF::loadView('backend.stock.stock_report_print', compact('allData'));
+        return $pdf->stream('Stock Report.pdf');
     }
 
     /**
@@ -57,19 +63,4 @@ class StockController extends Controller
         return view('backend.stock.product_wise_report_pdf', compact('product'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }
