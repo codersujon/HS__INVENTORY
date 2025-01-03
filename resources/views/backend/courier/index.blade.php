@@ -11,7 +11,7 @@
                     <ol class="breadcrumb mb-0 p-0">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="bx bx-home-alt"></i></a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">API Integration</li>
+                        <li class="breadcrumb-item active" aria-current="page">General Setting</li>
                     </ol>
                 </nav>
             </div>

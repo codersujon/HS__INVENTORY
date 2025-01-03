@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\CourierController;
+use App\Http\Controllers\Pos\ShippingChargeController;
 use App\Http\Controllers\Pos\CustomerController;
 use App\Http\Controllers\Pos\SupplierController;
 use App\Http\Controllers\Pos\UnitController;
@@ -56,6 +57,21 @@ Route::controller(PdfController::class)->group(function(){
     Route::get('/invoice/print/{id}', 'invoicePrint')->name('invoice.print');
 });
 
+
+/**
+ * MANAGE SHIPPING METHOD
+ */
+
+ Route::middleware('auth')->group(function(){
+    Route::controller(ShippingChargeController::class)->group(function(){
+        Route::get('/shipping/setting', 'index')->name('shipping.index');
+        Route::get('/shipping/charges', 'shippingCharges')->name('shipping.charges');
+        Route::post('/shipping/store', 'store')->name('shipping.store');
+        Route::get('/shipping/edit/{id}', 'edit')->name('shipping.edit');
+        Route::post('/shipping/update/{id}', 'update')->name('shipping.update');
+        Route::get('/shipping/destroy/{id}', 'destroy')->name('shipping.destroy');
+    });
+});
 
 /**
  * MANAGE STOCK
@@ -116,7 +132,6 @@ Route::middleware('auth')->group(function(){
         Route::post('/courier/update/api/{id}', 'update')->name('courier.api.update');
     });
 });
-
 
 /**
  * MANAGE PURCHASE
@@ -210,7 +225,6 @@ Route::middleware('auth')->group(function(){
         Route::get('/supplier/delete/{id}', 'destroy')->name('supplier.delete');
     });
 });
-
 
 /**
  * MANAGE SHELVES

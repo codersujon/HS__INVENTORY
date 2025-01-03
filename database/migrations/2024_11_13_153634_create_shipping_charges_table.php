@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('shipping_charges', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->integer("amount");
+            $table->string("title");
+            $table->integer("shipping_charge");
             $table->boolean("status")->default(1);
             $table->timestamps();
         });

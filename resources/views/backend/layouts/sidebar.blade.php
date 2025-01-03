@@ -11,7 +11,7 @@
     </div>
     <!--navigation-->
     <ul class="metismenu" id="menu">
-        <li class="menu-label">Product Stage</li>
+        <!-- <li class="menu-label">Product Stage</li> -->
         <li>
             <a href="{{ route('dashboard') }}">
                 <div class="parent-icon"><i class='bx bx-home-circle'></i>
@@ -109,7 +109,7 @@
                 </li>
             </ul>
         </li>
-        <li class="menu-label">Purchase Stage</li>
+        <li class="menu-label">Purchase & Sales Stage</li>
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon">
@@ -129,7 +129,7 @@
                 </li>
             </ul>
         </li>
-        <li class="menu-label">Sales Stage</li>
+        <!-- <li class="menu-label">Sales Stage</li> -->
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon">
@@ -158,27 +158,12 @@
                 </li>
             </ul>
         </li>
-       
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon">
                     <i class="fadeIn animated bx bx-file"></i>
                 </div>
-                <div class="menu-title">API Integration</div>
-            </a>
-            <ul>
-                <li>
-                    <a href="{{ route('courier.api') }}"><i class="bx bx-right-arrow-alt"></i>Courier API</a>
-                </li>
-            </ul>
-        </li>
-       
-        <li>
-            <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon">
-                    <i class="fadeIn animated bx bx-file"></i>
-                </div>
-                <div class="menu-title">All Reports</div>
+                <div class="menu-title">Reports</div>
             </a>
             <ul>
                 <li>
@@ -195,7 +180,22 @@
                 </li>
             </ul>
         </li>
-        
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon">
+                    <i class="fadeIn animated bx bx-wrench"></i>
+                </div>
+                <div class="menu-title">General Setting</div>
+            </a>
+            <ul>
+                <li>
+                    <a href="{{ route('shipping.index') }}"><i class="bx bx-right-arrow-alt"></i>Shipping Method</a>
+                </li>
+                <li>
+                    <a href="{{ route('courier.api') }}"><i class="bx bx-right-arrow-alt"></i>Courier API Setup</a>
+                </li>
+            </ul>
+        </li>
         <li>
             <a href="{{ route('logout') }}">
                 <div class="parent-icon"><i class="lni lni-exit"></i>
