@@ -578,18 +578,18 @@ class InvoiceController extends Controller
      */
     public function dailyInvoiceReport(){
         return view('backend.invoice.daily_invoice_report');
-    } // Daily Invoice Report
+    } 
 
     /**
      * DAILY INVOICE PDF
      */
 
-     public function dailyInvoicePdf(Request $request){
-        $start_date = date('Y-m-d', strtotime($request->start_date));
-        $end_date = date('Y-m-d', strtotime($request->end_date));
-        $allData = Invoice::whereBetween('date', [$start_date, $end_date])->where('status', '2')->get();
-        return view('backend.invoice.invoice_daily_report_pdf', compact('allData', 'start_date', 'end_date'));
-     }
+    //  public function dailyInvoicePdf(Request $request){
+    //     $start_date = date('Y-m-d', strtotime($request->start_date));
+    //     $end_date = date('Y-m-d', strtotime($request->end_date));
+    //     $allData = Invoice::whereBetween('date', [$start_date, $end_date])->where('status', '2')->get();
+    //     return view('backend.invoice.daily_purchase_report_print', compact('allData', 'start_date', 'end_date'));
+    //  }
 
 
      /**
