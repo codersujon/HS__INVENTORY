@@ -147,7 +147,7 @@
                                         <select name="shipping_charge" id="shipping_charge" class="form-select single-select">
                                             <option value="">Select Delivery Charge</option>
                                             @foreach($shippingCharges as $shipping)
-                                                <option value="{{ $shipping->amount }}">{{ $shipping->name }}</option>
+                                                <option value="{{ $shipping->shipping_charge }}">{{ $shipping->title }}</option>
                                             @endforeach
                                         </select>
                                     </div>

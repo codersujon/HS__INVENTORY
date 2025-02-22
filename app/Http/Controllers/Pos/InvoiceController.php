@@ -235,8 +235,6 @@ class InvoiceController extends Controller
         $payment = Payment::where('invoice_id', $id)->first();
         $category = Category::all();
         $customers = Customer::where('id', $payment->customer_id)->get();
-        // dd($customers);
-
         $shippingCharges = ShippingCharge::all();
         return view('backend.invoice.invoice_edit', compact('invoice', 'payment', 'category', 'customers', 'shippingCharges'));
     }
