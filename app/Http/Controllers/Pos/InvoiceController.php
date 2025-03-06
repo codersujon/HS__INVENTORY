@@ -23,6 +23,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceDetail;
 use App\Models\Payment;
 use App\Models\PaymentDetail;
+use PDF;
 
 
 class InvoiceController extends Controller
@@ -582,12 +583,13 @@ class InvoiceController extends Controller
      * DAILY INVOICE PDF
      */
 
-    //  public function dailyInvoicePdf(Request $request){
-    //     $start_date = date('Y-m-d', strtotime($request->start_date));
-    //     $end_date = date('Y-m-d', strtotime($request->end_date));
-    //     $allData = Invoice::whereBetween('date', [$start_date, $end_date])->where('status', '2')->get();
-    //     return view('backend.invoice.daily_purchase_report_print', compact('allData', 'start_date', 'end_date'));
-    //  }
+     public function dailyInvoicePdf(Request $request){
+        $start_date = date('Y-m-d', strtotime($request->start_date));
+        $end_date = date('Y-m-d', strtotime($request->end_date));
+        $allData = Invoice::whereBetween('date', [$start_date, $end_date])->where('status', '2')->get();
+        $pdf = PDF::loadView('backend.invoice.daily_invoice_report_print', compact('allData', 'start_date', 'end_date'));
+        return $pdf->stream('Daily Sales Report.pdf');
+     }
 
 
      /**

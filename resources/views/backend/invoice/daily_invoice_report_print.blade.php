@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Daily Purchase Report - Hypershop.com.bd</title>
+    <title>Daily Sales Report - Hypershop.com.bd</title>
     <style>
         html,
         body {
@@ -94,19 +94,18 @@
     <table style="margin-top: 20px;">
         <thead>
             <tr>
-                <th class="no-border text-start heading bg-dark text-center" colspan="8" style="text-align:center; padding: 10px 0;">
-                    DAILY PURCHASE REPORT ({{ date('d-m-Y', strtotime($start_date)) }} to {{ date('d-m-Y', strtotime($end_date))  }})  
+                <th class="no-border text-start heading bg-dark text-center" colspan="7" style="text-align:center; padding: 10px 0;">
+                    DAILY SALES REPORT ({{ date('d-m-Y', strtotime($start_date)) }} to {{ date('d-m-Y', strtotime($end_date))  }})  
                 </th>
             </tr>
             <tr class="text-center bg-blue">
                 <th style="color: #fff; text-align:center;">#</th>
-                <th style="color: #fff; text-align:center;">PURCHASE NO</th>
+                <th style="color: #fff; text-align:center;">INVOICE NO</th>
                 <th style="color: #fff; text-align:center;">DATE</th>
-                <th style="color: #fff; text-align:center;">PRODUCT NAME</th>
-                <th style="color: #fff; text-align:center;">SUPPLIER NAME</th>
-                <th style="color: #fff; text-align:center;">QTY</th>
-                <th style="color: #fff; text-align:center;">PURCHASE PRICE</th>
-                <th style="color: #fff; text-align:center;">TOTAL PRICE</th>
+                <th style="color: #fff; text-align:center;">CUSTOMER NAME</th>
+                <th style="color: #fff; text-align:center;">GENDER</th>
+                <th style="color: #fff; text-align:center;">PHONE NO</th>
+                <th style="color: #fff; text-align:center;">AMMOUNT</th>
             </tr>
         </thead>
         <tbody>
@@ -119,23 +118,22 @@
 
             <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>
-                <td class="text-center"><h4>#{{ $item->purchase_no }}</h4></td>
-                <td class="text-center">{{ date('d-m-Y', strtotime($item->purchase_date)) }}</td>
-                <td class="text-center">{{ $item['product']['product_name'] }}</td>
-                <td class="text-center">{{ ucwords($item['supplier']['supplier_name']) }}</td>
-                <td class="text-center">{{ $item->buying_qty }}</td>
-                <td class="text-center">{{ number_format($item->unit_price, 2) }}</td>
-                <td class="text-end">{{ number_format($item->buying_price, 2) }}</td>
+                <td class="text-center"><h4>#{{ $item->invoice_no }}</h4></td>
+                <td class="text-center">{{ date('d-m-Y', strtotime($item->date)) }}</td>
+                <td class="text-center">{{ ucwords($item['payment']['customer']['customer_name']) }}</td>
+                <td class="text-center">{{ ucwords($item['payment']['customer']['c_gender']) }}</td>
+                <td class="text-center">{{ $item['payment']['customer']['c_phone'] }}</td>
+                <td class="text-end">{{  number_format($item['payment']['total_amount'], 2) }}</td>
             </tr>
 
             @php
-                $total_sum += $item->buying_price;
+                $total_sum += $item['payment']['total_amount']
             @endphp
 
             @endforeach
 
             <tr>
-                <td colspan="7" class="total-heading text-end"><strong>Total Purchase Amount:</strong></td>
+                <td colspan="6" class="total-heading text-end"><strong>Total Sales Amount:</strong></td>
                 <td colspan="1" class="total-heading text-end"><strong>{{ number_format($total_sum, 2) }}</strong></td>
             </tr>
         </tbody>

@@ -10,6 +10,7 @@ use App\Models\Supplier;
 use App\Models\Unit;
 use App\Models\Category;
 use App\Models\Product;
+use PDF;
 date_default_timezone_set('Asia/Dhaka');
 
 
@@ -201,7 +202,8 @@ class PurchaseController extends Controller
         $start_date = date('Y-m-d', strtotime($request->start_date));
         $end_date = date('Y-m-d', strtotime($request->end_date));
         $allData = Purchase::whereBetween('purchase_date', [$start_date, $end_date])->where('status', '1')->get();
-        return view('backend.purchase.daily_purchase_report_pdf', compact('allData', 'start_date', 'end_date'));
+        $pdf = PDF::loadView('backend.purchase.daily_purchase_report_print', compact('allData', 'start_date', 'end_date'));
+        return $pdf->stream('Daily Purchase Report.pdf');
     }
 
 }
